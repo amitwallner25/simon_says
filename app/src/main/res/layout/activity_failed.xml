@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="#FFCDD2">
+
+    <TextView
+        android:id="@+id/failedTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="YOU FAILED"
+        android:textSize="40sp"
+        android:textColor="#D32F2F"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp" />
+
+    <Button
+        android:id="@+id/tryAgainButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Try Again"
+        android:textSize="18sp"
+        android:padding="16dp"
+        android:background="#D32F2F"
+        android:textColor="#FFFFFF" />
+
+</LinearLayout>

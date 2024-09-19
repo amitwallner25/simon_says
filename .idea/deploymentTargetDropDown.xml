@@ -15,7 +15,18 @@
               </deviceKey>
             </Target>
           </targetSelectedWithDropDown>
-          <timeTargetWasSelectedWithDropDown value="2024-09-18T17:34:28.867211500Z" />
+          <timeTargetWasSelectedWithDropDown value="2024-09-18T17:41:34.713715500Z" />
+          <targetsSelectedWithDialog>
+            <Target>
+              <type value="QUICK_BOOT_TARGET" />
+              <deviceKey>
+                <Key>
+                  <type value="VIRTUAL_DEVICE_PATH" />
+                  <value value="C:\Users\win10\.android\avd\Pixel_6_API_34.avd" />
+                </Key>
+              </deviceKey>
+            </Target>
+          </targetsSelectedWithDialog>
         </State>
       </entry>
     </value>

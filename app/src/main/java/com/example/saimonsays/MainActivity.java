@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private Random random = new Random();
     private int currentStep = 0;
     private int score = 0;
+    private String username;  // To store the logged-in user's username
+    private DatabaseHelper db;  // To interact with the SQLite database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +62,16 @@ public class MainActivity extends AppCompatActivity {
                 handleUserInput(4);
             }
         });
+        db = new DatabaseHelper(this);  // Initialize the database helper
+
+// Get the username passed from LoginActivity
+        username = getIntent().getStringExtra("username");
+
+// Load the previous score from the database for this user
+        if (username != null) {
+            score = db.getScore(username);  // Get the user's score from the database
+            updateScore();  // Display the score on screen
+        }
 
         startGame();
     }
@@ -147,5 +159,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateScore() {
         scoreTextView.setText("Score: " + score);
+        if (username != null) {
+            db.updateScore(username, score);  // Update the score in the database for the logged-in user
+        }
     }
 }

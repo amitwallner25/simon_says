@@ -14,6 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Name
     public static final String TABLE_NAME = "users";
 
+
     // Table Columns
     public static final String COL_1 = "ID";
     public static final String COL_2 = "USERNAME";

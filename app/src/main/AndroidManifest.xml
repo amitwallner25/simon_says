@@ -12,22 +12,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SaimonSays"
         tools:targetApi="31">
+
+        <!-- Make LoginActivity the launcher activity -->
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
-        <!-- MainActivity is the main entry point of the app -->
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- FailedActivity is launched when the player fails -->
+        </activity>
+
+        <!-- MainActivity: no longer the launcher activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+
+        <!-- FailedActivity is launched when the player fails -->
         <activity
             android:name=".FailedActivity"
             android:exported="false" />
+
     </application>
 
 </manifest>

@@ -3,8 +3,11 @@ package com.example.saimonsays;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import java.util.Random;
 
 public class GameDatabaseHelper extends SQLiteOpenHelper {
 
@@ -47,9 +50,19 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Method to add a new player record to the database
-    public void addPlayer(String uniqueId, String username, int highestScore, String password, String hsDate) {
+    public void addPlayer(String username, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+
+        String uniqueId;
+        int highestScore = 0;
+        String hsDate = "";
+        do {
+            uniqueId = generateUniqueId();
+
+
+        } while (isUniqueIdExists(db, uniqueId) || isUsernameExists(db, username));
+
         values.put(COLUMN_ID, uniqueId);
         values.put(COLUMN_USERNAME, username);
         values.put(COLUMN_HIGHEST_SCORE, highestScore);
@@ -59,6 +72,23 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_NAME, null, values);
         db.close();
     }
+
+    private String generateUniqueId() {
+        Random random = new Random();
+        int id = 10000 + random.nextInt(90000); // Generates 5-digit number
+        return String.valueOf(id);
+    }
+
+    private boolean isUniqueIdExists(SQLiteDatabase db, String uniqueId) {
+        String[] selectionArgs = { uniqueId };
+        return DatabaseUtils.queryNumEntries(db, TABLE_NAME, COLUMN_ID + " = ?", selectionArgs) > 0;
+    }
+
+    private boolean isUsernameExists (SQLiteDatabase db, String uniqueId) {
+        String[] selectionArgs = { uniqueId };
+        return DatabaseUtils.queryNumEntries(db, TABLE_NAME, COLUMN_USERNAME + " = ?", selectionArgs) > 0;
+    }
+
 
     // Method to get a player's information by unique ID
     public Cursor getPlayerById(String uniqueId) {
@@ -105,5 +135,10 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return 0; // Default score if user doesn't exist
+    }
+
+    public boolean UserExists (SQLiteDatabase db, String uniqueId) {
+        String[] selectionArgs = { uniqueId };
+        return DatabaseUtils.queryNumEntries(db, TABLE_NAME, COLUMN_USERNAME + " = ?", selectionArgs) > 0;
     }
 }

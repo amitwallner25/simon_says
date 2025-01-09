@@ -83,4 +83,27 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         db.delete(TABLE_NAME, COLUMN_ID + "=?", new String[]{uniqueId});
         db.close();
     }
+
+    public boolean checkUser(String username, String password) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NAME + " WHERE USERNAME=? AND PASSWORD=?", new String[]{username, password});
+        if (cursor.getCount() > 0) {
+            cursor.close();
+            return true;
+        }
+        cursor.close();
+        return false;
+    }
+
+    public int getScore(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT SCORE FROM " + TABLE_NAME + " WHERE USERNAME=?", new String[]{username});
+        if (cursor.moveToFirst()) {
+            int score = cursor.getInt(0);
+            cursor.close();
+            return score;
+        }
+        cursor.close();
+        return 0; // Default score if user doesn't exist
+    }
 }

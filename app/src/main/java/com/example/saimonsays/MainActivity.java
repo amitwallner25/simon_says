@@ -10,8 +10,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.arch.core.executor.ArchTaskExecutor;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private int currentStep = 0;
     private int score = 0;
     private String username;  // To store the logged-in user's username
-    private DatabaseHelper db;  // To interact with the SQLite database
+    private GameDatabaseHelper db;  // To interact with the SQLite database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 handleUserInput(4);
             }
         });
-        db = new DatabaseHelper(this);  // Initialize the database helper
+        db = new GameDatabaseHelper(this);  // Initialize the database helper
 
 // Get the username passed from LoginActivity
         username = getIntent().getStringExtra("username");
@@ -163,4 +170,18 @@ public class MainActivity extends AppCompatActivity {
             db.updateScore(username, score);  // Update the score in the database for the logged-in user
         }
     }
+
+    private void updateHighScore() {
+        if (username != null) {
+            int currentHighScore = db.getScore(username);
+            if (score > currentHighScore) {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String todayDate = dateFormat.format(new Date()); // Use java.util.Date
+                db.updatePlayerHighScore(username, score, todayDate);
+            }
+        }
+    }
+
+
+
 }

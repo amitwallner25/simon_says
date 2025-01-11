@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.Random;
@@ -22,6 +23,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_HIGHEST_SCORE = "highest_score";
     private static final String COLUMN_PASSWORD = "password";
     private static final String COLUMN_HS_DATE = "hsdate";
+    private static final String COLUMN_SCORE = "score";
 
     // SQL query to create the table
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
@@ -29,7 +31,8 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
             + COLUMN_USERNAME + " TEXT, "
             + COLUMN_HIGHEST_SCORE + " INTEGER, "
             + COLUMN_PASSWORD + " TEXT, "
-            + COLUMN_HS_DATE + " TEXT)";
+            + COLUMN_HS_DATE + " TEXT,"
+            + COLUMN_SCORE + " INTEGER)";
 
     // Constructor
     public GameDatabaseHelper(Context context) {
@@ -49,6 +52,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+
     // Method to add a new player record to the database
     public void addPlayer(String username, String password) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -57,6 +61,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         String uniqueId;
         int highestScore = 0;
         String hsDate = "";
+        int score = 0;
         do {
             uniqueId = generateUniqueId();
 
@@ -68,6 +73,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_HIGHEST_SCORE, highestScore);
         values.put(COLUMN_PASSWORD, password);
         values.put(COLUMN_HS_DATE, hsDate);
+        values.put(COLUMN_SCORE, score);
 
         db.insert(TABLE_NAME, null, values);
         db.close();
@@ -107,6 +113,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+
     // Method to delete a player's record
     public void deletePlayer(String uniqueId) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -129,7 +136,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT SCORE FROM " + TABLE_NAME + " WHERE USERNAME=?", new String[]{username});
         if (cursor.moveToFirst()) {
-            int score = cursor.getInt(0);
+            int score = cursor.getInt(cursor.getColumnIndexOrThrow("SCORE"));
             cursor.close();
             return score;
         }
@@ -146,4 +153,15 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
+
+    public void updateScore(String username, int score) {
+        try (SQLiteDatabase db = this.getWritableDatabase()) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(COLUMN_SCORE, score);
+            db.update(TABLE_NAME, contentValues, "USERNAME = ?", new String[]{username});
+        }
+
+    }
+
+
 }

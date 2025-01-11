@@ -137,8 +137,13 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         return 0; // Default score if user doesn't exist
     }
 
-    public boolean UserExists (SQLiteDatabase db, String uniqueId) {
-        String[] selectionArgs = { uniqueId };
-        return DatabaseUtils.queryNumEntries(db, TABLE_NAME, COLUMN_USERNAME + " = ?", selectionArgs) > 0;
+    public boolean doesUserExist(GameDatabaseHelper db, String username) {
+        SQLiteDatabase readableDatabase = db.getReadableDatabase();
+        String[] selectionArgs = { username };
+        String query = "SELECT 1 FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + " = ? LIMIT 1";
+        Cursor cursor = readableDatabase.rawQuery(query, selectionArgs);
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        return exists;
     }
 }

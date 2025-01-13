@@ -143,6 +143,18 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         return 0; // Default score if user doesn't exist
     }
 
+    public int getHighScore(String username) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT HIGHEST_SCORE FROM " + TABLE_NAME + " WHERE USERNAME=?", new String[]{username});
+        if (cursor.moveToFirst()) {
+            int highScore = cursor.getInt(cursor.getColumnIndexOrThrow("highest_score"));
+            cursor.close();
+            return highScore;
+        }
+        cursor.close();
+        return 0; // Default score if user doesn't exist
+    }
+
     public boolean doesUserExist(GameDatabaseHelper db, String username) {
         SQLiteDatabase readableDatabase = db.getReadableDatabase();
         String[] selectionArgs = { username };

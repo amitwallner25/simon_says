@@ -23,7 +23,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private Button button1, button2, button3, button4;
-    private TextView scoreTextView;
+    private TextView scoreTextView,highScoreTextView;
     private ArrayList<Integer> pattern = new ArrayList<>();
     private ArrayList<Integer> userInput = new ArrayList<>();
     private Handler handler = new Handler();
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         button3 = findViewById(R.id.button3);
         button4 = findViewById(R.id.button4);
         scoreTextView = findViewById(R.id.scoreTextView);
+        highScoreTextView = findViewById(R.id.highScoreTextView);
 
         // Set up button click listeners
         button1.setOnClickListener(new View.OnClickListener() {
@@ -151,6 +152,7 @@ public class MainActivity extends AppCompatActivity {
                 score++;
                 updateScore();
                 updateHighScore();
+                updateRecord();
 
                 // Add a new step and show the new pattern
                 addStepToPattern();
@@ -181,6 +183,14 @@ public class MainActivity extends AppCompatActivity {
                 db.updatePlayerHighScore(username, score, todayDate);
             }
         }
+    }
+
+    private void updateRecord() {
+        int currentHighScore = db.getHighScore(username);
+        if (score > currentHighScore) {
+            highScoreTextView.setText("Record: " + score); // Update TextView
+        }
+
     }
 
 

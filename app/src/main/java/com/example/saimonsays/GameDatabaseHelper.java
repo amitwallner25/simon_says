@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.Random;
@@ -136,7 +135,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT SCORE FROM " + TABLE_NAME + " WHERE USERNAME=?", new String[]{username});
         if (cursor.moveToFirst()) {
-            int score = cursor.getInt(cursor.getColumnIndexOrThrow("SCORE"));
+            int score = cursor.getInt(cursor.getColumnIndexOrThrow("score"));
             cursor.close();
             return score;
         }

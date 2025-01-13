@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 // Increase score and update UI
                 score++;
                 updateScore();
+                updateHighScore();
 
                 // Add a new step and show the new pattern
                 addStepToPattern();

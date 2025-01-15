@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent; // Import for starting a new Activity
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -74,6 +75,13 @@ public class MainActivity extends AppCompatActivity {
 
 // Get the username passed from LoginActivity
         username = getIntent().getStringExtra("username");
+        if (username == null)
+        {
+            username = db.getUserName();
+        }
+        if (username == null) {
+            Log.d("MainActivity","Oh oh - just null-ed username #1");
+        }
 
 // Load the previous score from the database for this user
         if (username != null) {

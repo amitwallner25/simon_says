@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.Random;
 
@@ -84,6 +85,8 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         return String.valueOf(id);
     }
 
+
+
     private boolean isUniqueIdExists(SQLiteDatabase db, String uniqueId) {
         String[] selectionArgs = { uniqueId };
         return DatabaseUtils.queryNumEntries(db, TABLE_NAME, COLUMN_ID + " = ?", selectionArgs) > 0;
@@ -144,7 +147,9 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public int getHighScore(String username) {
+        Log.d("GameDB","GetHighScore("+username+")");
         SQLiteDatabase db = this.getReadableDatabase();
+        Log.d("GameDB","GetHighScore: got readable db");
         Cursor cursor = db.rawQuery("SELECT HIGHEST_SCORE FROM " + TABLE_NAME + " WHERE USERNAME=?", new String[]{username});
         if (cursor.moveToFirst()) {
             int highScore = cursor.getInt(cursor.getColumnIndexOrThrow("highest_score"));
@@ -164,6 +169,12 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
+
+    public String getUserName()
+    {
+        return COLUMN_USERNAME;
+    }
+
 
     public void updateScore(String username, int score) {
         try (SQLiteDatabase db = this.getWritableDatabase()) {

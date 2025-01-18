@@ -18,6 +18,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
 
     // Table and column names
     private static final String TABLE_NAME = "player_scores";
+    private static final String COLUMN_CURRENT_LOGGED_IN_USER = "current_logged_in_user";
     private static final String COLUMN_ID = "unique_id";
     private static final String COLUMN_USERNAME = "username";
     private static final String COLUMN_HIGHEST_SCORE = "highest_score";
@@ -28,6 +29,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
     // SQL query to create the table
     private static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
             + COLUMN_ID + " TEXT PRIMARY KEY, "
+            + COLUMN_CURRENT_LOGGED_IN_USER + " TEXT, "
             + COLUMN_USERNAME + " TEXT, "
             + COLUMN_HIGHEST_SCORE + " INTEGER, "
             + COLUMN_PASSWORD + " TEXT, "
@@ -86,14 +88,13 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
     }
 
 
-
     private boolean isUniqueIdExists(SQLiteDatabase db, String uniqueId) {
-        String[] selectionArgs = { uniqueId };
+        String[] selectionArgs = {uniqueId};
         return DatabaseUtils.queryNumEntries(db, TABLE_NAME, COLUMN_ID + " = ?", selectionArgs) > 0;
     }
 
-    private boolean isUsernameExists (SQLiteDatabase db, String uniqueId) {
-        String[] selectionArgs = { uniqueId };
+    private boolean isUsernameExists(SQLiteDatabase db, String uniqueId) {
+        String[] selectionArgs = {uniqueId};
         return DatabaseUtils.queryNumEntries(db, TABLE_NAME, COLUMN_USERNAME + " = ?", selectionArgs) > 0;
     }
 
@@ -147,9 +148,9 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public int getHighScore(String username) {
-        Log.d("GameDB","GetHighScore("+username+")");
+        Log.d("GameDB", "GetHighScore(" + username + ")");
         SQLiteDatabase db = this.getReadableDatabase();
-        Log.d("GameDB","GetHighScore: got readable db");
+        Log.d("GameDB", "GetHighScore: got readable db");
         Cursor cursor = db.rawQuery("SELECT HIGHEST_SCORE FROM " + TABLE_NAME + " WHERE USERNAME=?", new String[]{username});
         if (cursor.moveToFirst()) {
             int highScore = cursor.getInt(cursor.getColumnIndexOrThrow("highest_score"));
@@ -162,7 +163,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
 
     public boolean doesUserExist(GameDatabaseHelper db, String username) {
         SQLiteDatabase readableDatabase = db.getReadableDatabase();
-        String[] selectionArgs = { username };
+        String[] selectionArgs = {username};
         String query = "SELECT 1 FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + " = ? LIMIT 1";
         Cursor cursor = readableDatabase.rawQuery(query, selectionArgs);
         boolean exists = cursor.moveToFirst();
@@ -170,10 +171,27 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    public String getUserName()
-    {
-        return COLUMN_USERNAME;
+    public String getCurrentLoggedIn() {
+        SQLiteDatabase readableDatabase = this.getReadableDatabase();
+        String query = "SELECT " + COLUMN_CURRENT_LOGGED_IN_USER + " FROM " + TABLE_NAME;
+        Cursor cursor = readableDatabase.rawQuery(query, null);
+
+        String currentUser = null;
+        if (cursor.moveToFirst()) {
+            currentUser = cursor.getString(0); // Assuming the column is of type TEXT
+        }
+        cursor.close();
+        readableDatabase.close();
+        return currentUser;
     }
+
+    public void setCurrentLoggedInUser(String name)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_CURRENT_LOGGED_IN_USER, name);
+    }
+
 
 
     public void updateScore(String username, int score) {

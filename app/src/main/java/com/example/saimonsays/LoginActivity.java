@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
                 String password = passwordEditText.getText().toString();
 
                 if (db.checkUser(username, password)) {
+                    db.setCurrentLoggedInUser(username); // Update the current logged-in user
                     // Successful login, move to MainActivity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("username", username); // Pass username

@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         username = getIntent().getStringExtra("username");
         if (username == null)
         {
-            username = db.getUserName();
+            username = db.getCurrentLoggedIn();
         }
         if (username == null) {
             Log.d("MainActivity","Oh oh - just null-ed username #1");

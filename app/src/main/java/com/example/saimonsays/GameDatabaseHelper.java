@@ -71,6 +71,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         } while (isUniqueIdExists(db, uniqueId) || isUsernameExists(db, username));
 
         values.put(COLUMN_ID, uniqueId);
+        values.put(COLUMN_CURRENT_LOGGED_IN_USER,"");
         values.put(COLUMN_USERNAME, username);
         values.put(COLUMN_HIGHEST_SCORE, highestScore);
         values.put(COLUMN_PASSWORD, password);
@@ -190,6 +191,7 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_CURRENT_LOGGED_IN_USER, name);
+        db.update(TABLE_NAME, values, null, null);
     }
 
 

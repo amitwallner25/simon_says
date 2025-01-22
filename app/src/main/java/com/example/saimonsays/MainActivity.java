@@ -9,15 +9,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.arch.core.executor.ArchTaskExecutor;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Random;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Random random = new Random();
     private int currentStep = 0;
     private int score = 0;
-    private String username;  // To store the logged-in user's username
+    private String mUsername;  // To store the logged-in user's username
     private GameDatabaseHelper db;  // To interact with the SQLite database
 
     @Override
@@ -74,18 +71,18 @@ public class MainActivity extends AppCompatActivity {
         db = new GameDatabaseHelper(this);  // Initialize the database helper
 
 // Get the username passed from LoginActivity
-        username = getIntent().getStringExtra("username");
-        if (username == null)
+        mUsername = getIntent().getStringExtra("username");
+        if (mUsername == null)
         {
-            username = db.getCurrentLoggedIn();
+            mUsername = db.getCurrentLoggedIn();
         }
-        if (username == null) {
+        if (mUsername == null) {
             Log.d("MainActivity","Oh oh - just null-ed username #1");
         }
 
 // Load the previous score from the database for this user
-        if (username != null) {
-            score = db.getScore(username);  // Get the user's score from the database
+        if (mUsername != null) {
+            score = db.getScore(mUsername);  // Get the user's score from the database
             updateScore();  // Display the score on screen
         }
 
@@ -159,8 +156,7 @@ public class MainActivity extends AppCompatActivity {
                 // Increase score and update UI
                 score++;
                 updateScore();
-                updateHighScore();
-                updateRecord();
+
 
                 // Add a new step and show the new pattern
                 addStepToPattern();
@@ -168,6 +164,8 @@ public class MainActivity extends AppCompatActivity {
             }
         } else {
             // User made a mistake, transition to FailedActivity
+            updateHighScore();
+            updateRecord();
             Intent intent = new Intent(MainActivity.this, FailedActivity.class);
             intent.putExtra("score", score); // Send score to FailedActivity
             startActivity(intent);
@@ -177,24 +175,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateScore() {
         scoreTextView.setText("Score: " + score);
-        if (username != null) {
-            db.updateScore(username, score);  // Update the score in the database for the logged-in user
+        if (mUsername != null) {
+            db.updateScore(mUsername, score);  // Update the score in the database for the logged-in user
         }
     }
 
     private void updateHighScore() {
-        if (username != null) {
-            int currentHighScore = db.getScore(username);
+        if (mUsername != null) {
+            int currentHighScore = db.getScore(mUsername);
             if (score > currentHighScore) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 String todayDate = dateFormat.format(new Date()); // Use java.util.Date
-                db.updatePlayerHighScore(username, score, todayDate);
+                db.updatePlayerHighScore(mUsername, score, todayDate);
             }
         }
     }
 
     private void updateRecord() {
-        int currentHighScore = db.getHighScore(username);
+        int currentHighScore = db.getHighScore(mUsername);
         if (score > currentHighScore) {
             highScoreTextView.setText("Record: " + score); // Update TextView
         }

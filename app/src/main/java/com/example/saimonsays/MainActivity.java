@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private Button button1, button2, button3, button4;
+    private ImageButton imageButton;
     private TextView scoreTextView,highScoreTextView;
     private ArrayList<Integer> pattern = new ArrayList<>();
     private ArrayList<Integer> userInput = new ArrayList<>();
@@ -68,6 +70,15 @@ public class MainActivity extends AppCompatActivity {
                 handleUserInput(4);
             }
         });
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LeaderBoards.class);
+                startActivity(intent);
+                finish(); // Close this activity to prevent returning with the back button
+            }
+        });
+
         db = new GameDatabaseHelper(this);  // Initialize the database helper
 
 // Get the username passed from LoginActivity

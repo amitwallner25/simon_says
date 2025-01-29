@@ -10,6 +10,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
+import android.widget.ImageButton;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 
 public class LeaderBoards extends AppCompatActivity {
 
+    ImageButton imageButton = findViewById(R.id.imageButton);
 
 
     @Override
@@ -35,6 +37,16 @@ public class LeaderBoards extends AppCompatActivity {
         CardAdapter adapter = new CardAdapter( this,);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LeaderBoards.this, MainActivity.class);
+                startActivity(intent);
+                finish(); // Close this activity to prevent returning with the back button
+            }
+        });
     }
 
 

@@ -1,21 +1,23 @@
 package com.example.saimonsays;
 
 public class CardModel {
-    String text;
-    int image;
-
-    public String getText() {
-        return text;
+    public String getName() {
+        return name;
     }
 
     public int getImage() {
         return image;
     }
+    public String getLatter(){return  latter;}
 
-    public CardModel(String text, int image) {
-        this.text = text;
+    String name;
+    String latter;
+    int image;
+
+    public CardModel(String name, int image,String latter) {
+        this.name = name;
         this.image = image;
+        this.latter = latter;
     }
-
 }
 

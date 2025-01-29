@@ -56,8 +56,8 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
             super(itemView);
 
             imageView = itemView.findViewById(R.id.imageView);
-            tvn = itemView.findViewById(R.id.textView);
-            tvl = itemView.findViewById(R.id.tvl);
+            tvn = itemView.findViewById(R.id.playerName);
+            tvl = itemView.findViewById(R.id.score);
         }
     }
 }

@@ -1,23 +1,19 @@
 package com.example.saimonsays;
 
 public class CardModel {
-    public String getName() {
-        return name;
-    }
-
-    public int getImage() {
-        return image;
-    }
-    public String getLatter(){return  latter;}
+    public String getPlayerName(){return  name;}
+    public int getScore(){return  score;}
+    public String getDate(){return  date;}
 
     String name;
-    String latter;
-    int image;
+    int score;
+    String date;
 
-    public CardModel(String name, int image,String latter) {
+    public CardModel(String name, int score, String date) {
         this.name = name;
-        this.image = image;
-        this.latter = latter;
+        this.score = score;
+        this.date = date;
+
     }
 }
 

@@ -1,3 +1,22 @@
 <resources>
     <string name="app_name">Saimon says</string>
+
+    <string-array name="Score">
+
+        <item> 8 </item>
+    </string-array>
+
+
+
+    <string-array name="PlayerName">
+
+        <item> a </item>
+    </string-array>
+
+
+    <string-array name="date">
+
+        <item> a </item>
+    </string-array>
+
 </resources>

@@ -21,32 +21,22 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 public class LeaderBoards extends AppCompatActivity {
-    ArrayList  <Pictures> pictures = new ArrayList<>();
 
-    int [] pictureArr = {R.drawable.bathman, R.drawable.baseline_attribution_24,R.drawable.bathman,
-            R.drawable.bathman,R.drawable.bathman,R.drawable.bathman,R.drawable.bathman,
-            R.drawable.bathman,R.drawable.bathman,R.drawable.bathman,R.drawable.bathman,
-            R.drawable.bathman,R.drawable.bathman,R.drawable.bathman,R.drawable.bathman,};
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_leader_boards);
 
-        RecyclerView recyclerView = findViewById(R.id.myrecycleview);
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
 
-        setUpPictures();
-        Recyclerviewadapter adapter = new Recyclerviewadapter( this,pictures);
+
+        CardAdapter adapter = new CardAdapter( this,);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
-    private void  setUpPictures(){
-        String [] pName = getResources().getStringArray(R.array.pName);
-        String [] latarr = getResources().getStringArray(R.array.RandomLatter);
 
-        for (int i = 0; i < pName.length; i++){
-            pictures.add(new Pictures(pName[i],pictureArr[i],latarr[i]));
-        }
-    }
+
 }

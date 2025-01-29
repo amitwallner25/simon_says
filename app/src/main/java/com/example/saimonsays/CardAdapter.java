@@ -10,14 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
     Context context;
-    ArrayList  <CardModel> pictures;
-    public CardAdapter(Context context, ArrayList<CardModel> pictures) {
+
+    public CardAdapter(Context context) {
         this.context = context;
-        this.pictures = pictures;
     }
 
     @NonNull
@@ -34,30 +31,28 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
         // assigning values to the views we Created in the recycler_view_row layout file
         // based on the position of the recycler view
 
-        holder.tvn.setText(pictures.get(position).getName());
-        holder.imageView.setImageResource(pictures.get(position).getImage());
-        holder.tvl.setText(pictures.get(position).getLatter());
+
 
     }
 
     @Override
-    public int getItemCount() {
-        // the recycler view just wants to know thw number of items you want displayed
-        return pictures.size();
+       public int getItemCount() {
+           // the recycler view just wants to know thw number of items you want displayed
+        return 0;
     }
 
     public static class MyViewHolder extends  RecyclerView.ViewHolder{
         // grabbing the views from our row layout file
         //kinda like onCreate method
 
-        ImageView imageView;
-        TextView tvn,tvl;
+
+        TextView score,playerName,date;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imageView = itemView.findViewById(R.id.imageView);
-            tvn = itemView.findViewById(R.id.playerName);
-            tvl = itemView.findViewById(R.id.score);
+            playerName = itemView.findViewById(R.id.playerName);
+            score = itemView.findViewById(R.id.score);
+            date = itemView.findViewById(R.id.date);
         }
     }
 }

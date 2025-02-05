@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        imageButton = findViewById(R.id.imageButton);
         button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
@@ -109,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
     private void resetGame() {
         pattern.clear();
         userInput.clear();
+        updateRecord();
         score = 0;
         updateScore();
     }
@@ -194,10 +196,11 @@ public class MainActivity extends AppCompatActivity {
     private void updateHighScore() {
         if (mUsername != null) {
             int currentHighScore = db.getScore(mUsername);
+            String id = db.getIdByUserName(mUsername);
             if (score > currentHighScore) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
                 String todayDate = dateFormat.format(new Date()); // Use java.util.Date
-                db.updatePlayerHighScore(mUsername, score, todayDate);
+                db.updatePlayerHighScore(id, score, todayDate);
             }
         }
     }

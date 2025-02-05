@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="5dp"
-        android:layout_marginStart="8dp"
+
         android:layout_marginEnd="8dp"
         app:cardBackgroundColor="@color/cardcolor"
         app:cardCornerRadius="20dp"
@@ -46,7 +46,6 @@
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/date"
-                app:layout_constraintMarginStart="50dp"
                 app:layout_constraintStart_toEndOf="@id/playerName"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,7 +59,6 @@
                 app:layout_constraintStart_toEndOf="@id/score"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintMarginStart="50dp"
                 app:layout_constraintEnd_toEndOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

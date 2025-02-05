@@ -10,13 +10,29 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
-    Context context;
+import java.util.ArrayList;
 
+public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
+    private class DataStruct {
+        Integer score;
+        String name;
+        String date;
+    }
+    Context context;
+    ArrayList<DataStruct> mData = new ArrayList<>();
     public CardAdapter(Context context) {
         this.context = context;
+        //Read data base
+        //Put what was read into an ArrayList/ - initData()
     }
 
+    void initData(){
+        /*for each
+                DataStruct tmp = new DataStruct();
+                tmp.date =
+
+                mData.add(tmp);*/
+    }
     @NonNull
     @Override
     public CardAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,8 +46,6 @@ public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull CardAdapter.MyViewHolder holder, int position) {
         // assigning values to the views we Created in the recycler_view_row layout file
         // based on the position of the recycler view
-
-
 
     }
 

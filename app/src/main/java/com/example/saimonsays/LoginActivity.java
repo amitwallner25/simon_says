@@ -29,8 +29,8 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+                String username = "a";/*usernameEditText.getText().toString();*/
+                String password = "a";/*passwordEditText.getText().toString();*/
 
                 if (db.checkUser(username, password)) {
                     db.setCurrentLoggedInUser(username); // Update the current logged-in user

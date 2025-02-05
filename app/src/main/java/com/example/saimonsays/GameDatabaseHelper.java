@@ -205,5 +205,19 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public String getIdByUserName(String uName)
+    {
+        SQLiteDatabase readableDatabase = this.getReadableDatabase();
+        String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME;
+        Cursor cursor = readableDatabase.rawQuery(query, null);
+        String id = null;
+        if (cursor.moveToFirst()) {
+            id = cursor.getString(0); // Assuming the column is of type TEXT
+        }
+        cursor.close();
+        readableDatabase.close();
+        return id;
+    }
+
 
 }

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 
 public class LeaderBoards extends AppCompatActivity {
 
-    ImageButton imageButton = findViewById(R.id.imageButton);
 
 
     @Override
@@ -32,9 +31,11 @@ public class LeaderBoards extends AppCompatActivity {
         setContentView(R.layout.activity_leader_boards);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        ImageButton imageButton = findViewById(R.id.imageButton);
 
 
-        CardAdapter adapter = new CardAdapter( this,);
+
+        CardAdapter adapter = new CardAdapter( this);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

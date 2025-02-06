@@ -221,13 +221,13 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void updateRecord() {
-        int currentHighScore = db.getHighScore(mUsername);
-        if (score > currentHighScore) {
-            updateHighScore();
-            highScoreTextView.setText("Record: " + score); // Update TextView
+        if (mUsername != null) {
+            int currentHighScore = db.getHighScore(mUsername);
+            highScoreTextView.setText("Record: " + currentHighScore);
+            Log.d("MainActivity", "Updated Record TextView: " + currentHighScore);
         }
-
     }
+
 
 
 

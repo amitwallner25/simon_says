@@ -109,13 +109,35 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
     // Method to update a player's highest score
     public void updatePlayerHighScore(String uniqueId, int newScore, String newDate) {
         SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_HIGHEST_SCORE, newScore);
-        values.put(COLUMN_HS_DATE, newDate);
+        Log.d("GameDB", "Attempting to update high score for user ID: " + uniqueId);
 
-        db.update(TABLE_NAME, values, COLUMN_ID + "=?", new String[]{uniqueId});
+        // Check the current highest score
+        Cursor cursor = db.rawQuery("SELECT " + COLUMN_HIGHEST_SCORE + " FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + "=?", new String[]{uniqueId});
+
+        if (cursor.moveToFirst()) {
+            int currentHighScore = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_HIGHEST_SCORE));
+            Log.d("GameDB", "Current High Score: " + currentHighScore + ", New Score: " + newScore);
+            cursor.close();
+
+            // Update only if the new score is higher
+            if (newScore > currentHighScore) {
+                ContentValues values = new ContentValues();
+                values.put(COLUMN_HIGHEST_SCORE, newScore);
+                values.put(COLUMN_HS_DATE, newDate);
+
+                int rowsAffected = db.update(TABLE_NAME, values, COLUMN_ID + "=?", new String[]{uniqueId});
+                Log.d("GameDB", "High score updated successfully! Rows affected: " + rowsAffected);
+            } else {
+                Log.d("GameDB", "New score is not higher. No update performed.");
+            }
+        } else {
+            Log.d("GameDB", "User ID not found: " + uniqueId);
+            cursor.close();
+        }
+
         db.close();
     }
+
 
 
     // Method to delete a player's record
@@ -205,19 +227,19 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public String getIdByUserName(String uName)
-    {
-        SQLiteDatabase readableDatabase = this.getReadableDatabase();
-        String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME;
-        Cursor cursor = readableDatabase.rawQuery(query, null);
+    public String getIdByUserName(String uName) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT " + COLUMN_ID + " FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + "=?";
+        Cursor cursor = db.rawQuery(query, new String[]{uName});
         String id = null;
         if (cursor.moveToFirst()) {
-            id = cursor.getString(0); // Assuming the column is of type TEXT
+            id = cursor.getString(0);
         }
         cursor.close();
-        readableDatabase.close();
+        db.close();
         return id;
     }
 
-
 }
+
+

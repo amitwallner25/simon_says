@@ -195,19 +195,35 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateHighScore() {
         if (mUsername != null) {
-            int currentHighScore = db.getScore(mUsername);
-            String id = db.getIdByUserName(mUsername);
-            if (score > currentHighScore) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                String todayDate = dateFormat.format(new Date()); // Use java.util.Date
-                db.updatePlayerHighScore(id, score, todayDate);
+            int currentHighScore = db.getHighScore(mUsername); // Get the correct high score
+            String id = db.getIdByUserName(mUsername); // Get the unique ID of the user
+
+            if (id != null) {
+                Log.d("MainActivity", "User ID found: " + id);
+
+                if (score > currentHighScore) {
+                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    String todayDate = dateFormat.format(new Date()); // Get today's date
+
+                    Log.d("MainActivity", "New high score: " + score + " on " + todayDate);
+
+                    db.updatePlayerHighScore(id, score, todayDate); // Send correct parameters
+                } else {
+                    Log.d("MainActivity", "Score not higher than current high score. No update needed.");
+                }
+            } else {
+                Log.e("MainActivity", "Failed to get user ID for username: " + mUsername);
             }
+        } else {
+            Log.e("MainActivity", "Username is null. Cannot update high score.");
         }
     }
+
 
     private void updateRecord() {
         int currentHighScore = db.getHighScore(mUsername);
         if (score > currentHighScore) {
+            updateHighScore();
             highScoreTextView.setText("Record: " + score); // Update TextView
         }
 

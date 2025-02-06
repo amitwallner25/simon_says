@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button button1, button2, button3, button4;
     private ImageButton imageButton;
+    private ImageView imageView;
     private TextView scoreTextView,highScoreTextView;
     private ArrayList<Integer> pattern = new ArrayList<>();
     private ArrayList<Integer> userInput = new ArrayList<>();
@@ -39,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         imageButton = findViewById(R.id.imageButton);
+        imageView = findViewById(R.id.imageView);
         button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);
         button3 = findViewById(R.id.button3);
@@ -72,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LeaderBoards.class);
+                startActivity(intent);
+                finish(); // Close this activity to prevent returning with the back button
+            }
+        });
+        imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LeaderBoards.class);

@@ -13,60 +13,52 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class CardAdapter extends RecyclerView.Adapter<CardAdapter.MyViewHolder> {
-    private class DataStruct {
-        Integer score;
-        String name;
-        String date;
-    }
-    Context context;
-    ArrayList<DataStruct> mData = new ArrayList<>();
-    public CardAdapter(Context context) {
+    private Context context;
+    private ArrayList<CardModel> mData;
+
+    public CardAdapter(Context context, ArrayList<CardModel> data) {
         this.context = context;
-        //Read data base
-        //Put what was read into an ArrayList/ - initData()
+        this.mData = data;
     }
 
-    void initData(){
-        /*for each
-                DataStruct tmp = new DataStruct();
-                tmp.date =
-
-                mData.add(tmp);*/
-    }
     @NonNull
     @Override
     public CardAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // this is where you inflate the layout (giving a look to our rows)
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.row,parent,false);
-        return new CardAdapter.MyViewHolder(view);
+        View view = inflater.inflate(R.layout.row, parent, false);
+        return new MyViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CardAdapter.MyViewHolder holder, int position) {
-        // assigning values to the views we Created in the recycler_view_row layout file
-        // based on the position of the recycler view
-
+        // Set data from database
+        CardModel currentPlayer = mData.get(position);
+        holder.playerName.setText(currentPlayer.getPlayerName());
+        holder.score.setText(String.valueOf(currentPlayer.getScore())); // Convert int to String
+        holder.date.setText(currentPlayer.getDate());
     }
 
     @Override
-       public int getItemCount() {
-           // the recycler view just wants to know thw number of items you want displayed
-        return 0;
+    public int getItemCount() {
+        return mData.size();
     }
 
-    public static class MyViewHolder extends  RecyclerView.ViewHolder{
-        // grabbing the views from our row layout file
-        //kinda like onCreate method
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView score, playerName, date;
 
-
-        TextView score,playerName,date;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-
             playerName = itemView.findViewById(R.id.playerName);
             score = itemView.findViewById(R.id.score);
             date = itemView.findViewById(R.id.date);
         }
     }
+
+    // Method to update the list dynamically
+    public void updateData(ArrayList<CardModel> newData) {
+        mData.clear();
+        mData.addAll(newData);
+        notifyDataSetChanged(); // Refresh RecyclerView
+    }
 }
+

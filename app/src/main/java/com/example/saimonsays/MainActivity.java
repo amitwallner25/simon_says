@@ -74,14 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 handleUserInput(4);
             }
         });
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LeaderBoards.class);
-                startActivity(intent);
-                finish(); // Close this activity to prevent returning with the back button
-            }
-        });
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -22,34 +22,42 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 public class LeaderBoards extends AppCompatActivity {
-
-
+    private RecyclerView recyclerView;
+    private CardAdapter adapter;
+    private GameDatabaseHelper dbHelper;
+    private ArrayList<CardModel> playerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_boards);
 
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recyclerView);
         ImageButton imageButton = findViewById(R.id.imageButton);
 
+        dbHelper = new GameDatabaseHelper(this);
+        playerList = dbHelper.getAllPlayers(); // Fetch players from DB
 
-
-        CardAdapter adapter = new CardAdapter( this);
+        adapter = new CardAdapter(this, playerList);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        imageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LeaderBoards.this, MainActivity.class);
-                startActivity(intent);
-                finish(); // Close this activity to prevent returning with the back button
-            }
+        imageButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LeaderBoards.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshData();
+    }
 
-
+    private void refreshData() {
+        playerList = dbHelper.getAllPlayers(); // Fetch latest data
+        adapter.updateData(playerList); // Update RecyclerView
+    }
 }
+

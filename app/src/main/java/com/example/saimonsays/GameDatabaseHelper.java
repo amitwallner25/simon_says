@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GameDatabaseHelper extends SQLiteOpenHelper {
@@ -239,6 +240,27 @@ public class GameDatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return id;
     }
+
+    public ArrayList<CardModel> getAllPlayers() {
+        ArrayList<CardModel> playerList = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT username, highest_score, hsdate FROM " + TABLE_NAME, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String name = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+                int score = cursor.getInt(cursor.getColumnIndexOrThrow("highest_score"));
+                String date = cursor.getString(cursor.getColumnIndexOrThrow("hsdate"));
+
+                playerList.add(new CardModel(name, score, date));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return playerList;
+    }
+
 
 }
 

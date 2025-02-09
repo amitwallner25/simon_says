@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageButton = findViewById(R.id.imageButton);
         imageView = findViewById(R.id.imageView);
         button1 = findViewById(R.id.button1);
         button2 = findViewById(R.id.button2);

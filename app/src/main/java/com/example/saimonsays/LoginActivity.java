@@ -44,24 +44,16 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = usernameEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
+                startActivity(intent);
+                finish();
 
-                // Check if username already exists
-                if (db.doesUserExist(db, username)) {
-                    Toast.makeText(LoginActivity.this, "Username already exists. Please choose a different one.", Toast.LENGTH_SHORT).show();
-                    return; // Stop further execution
-                }
-
-                // Add the new player to the database
-                db.addPlayer(username, password); // Assuming initial highest score and hsDate are empty
-
-                Toast.makeText(LoginActivity.this, "Registration successful! You can now log in.", Toast.LENGTH_SHORT).show();
             }
         });
+
+
     }
 }

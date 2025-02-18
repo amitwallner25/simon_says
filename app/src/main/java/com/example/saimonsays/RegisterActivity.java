@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class RegisterActivity extends AppCompatActivity {
 
     private  Button buttonRegister, buttonBackToLogin;
-    private TextView passwordET, usernameET;
+    private EditText passwordET, usernameET;
     private GameDatabaseHelper db;
 
 

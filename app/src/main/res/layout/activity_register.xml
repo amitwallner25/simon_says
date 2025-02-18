@@ -10,11 +10,12 @@
     tools:context=".RegisterActivity">
 
 
-    <TextView
+    <EditText
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Username"
+        android:layout_marginBottom="10dp"
         android:textColor="@color/black"
         android:background="@color/white"
         android:inputType="textPersonName"
@@ -23,7 +24,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+    <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

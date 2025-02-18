@@ -23,7 +23,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private Button button1, button2, button3, button4;
-    private ImageButton imageButton;
     private ImageView imageView;
     private TextView scoreTextView,highScoreTextView;
     private ArrayList<Integer> pattern = new ArrayList<>();

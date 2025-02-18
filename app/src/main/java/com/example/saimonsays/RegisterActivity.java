@@ -1,5 +1,6 @@
 package com.example.saimonsays;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    private  Button buttonRegister;
+    private  Button buttonRegister, buttonBackToLogin;
     private TextView passwordET, usernameET;
     private GameDatabaseHelper db;
 
@@ -23,9 +24,10 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
 
-        buttonRegister.findViewById(R.id.registerButton);
-        passwordET.findViewById(R.id.passwordEditText);
-        usernameET.findViewById(R.id.usernameEditText);
+        buttonRegister = findViewById(R.id.registerButton);
+        buttonBackToLogin = findViewById(R.id.ButtonBackToLogIn);
+        passwordET = findViewById(R.id.passwordEditText);
+        usernameET = findViewById(R.id.usernameEditText);
         db = new GameDatabaseHelper(this);
 
 
@@ -45,8 +47,22 @@ public class RegisterActivity extends AppCompatActivity {
                 db.addPlayer(username, password); // Assuming initial highest score and hsDate are empty
 
                 Toast.makeText(RegisterActivity.this, "Registration successful! You can now log in.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish(); // Close this activity to prevent returning with the back button
             }
         });
+
+        buttonBackToLogin.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                startActivity(intent);
+                finish(); // Close this activity to prevent returning with the back button
+            }
+        });
+
+
 
 
 

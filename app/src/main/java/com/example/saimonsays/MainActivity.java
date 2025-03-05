@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +21,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button button1, button2, button3, button4;
+    private Button buttonRed, buttonGreen, buttonBlue, buttonYellow;
     private ImageView imageView;
     private TextView scoreTextView,highScoreTextView;
     private ArrayList<Integer> pattern = new ArrayList<>();
@@ -40,33 +39,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         imageView = findViewById(R.id.imageView);
-        button1 = findViewById(R.id.button1);
-        button2 = findViewById(R.id.button2);
-        button3 = findViewById(R.id.button3);
-        button4 = findViewById(R.id.button4);
+        buttonRed = findViewById(R.id.buttonRed);
+        buttonGreen = findViewById(R.id.buttonGreen);
+        buttonBlue = findViewById(R.id.buttonBlue);
+        buttonYellow = findViewById(R.id.buttonYellow);
         scoreTextView = findViewById(R.id.scoreTextView);
         highScoreTextView = findViewById(R.id.highScoreTextView);
 
         // Set up button click listeners
-        button1.setOnClickListener(new View.OnClickListener() {
+        buttonRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleUserInput(1);
             }
         });
-        button2.setOnClickListener(new View.OnClickListener() {
+        buttonGreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleUserInput(2);
             }
         });
-        button3.setOnClickListener(new View.OnClickListener() {
+        buttonBlue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleUserInput(3);
             }
         });
-        button4.setOnClickListener(new View.OnClickListener() {
+        buttonYellow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleUserInput(4);
@@ -122,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showPattern() {
+        disableClickOnThe4Colors();
         currentStep = 0;
         userInput.clear();
         handler.postDelayed(new Runnable() {
@@ -132,24 +132,43 @@ public class MainActivity extends AppCompatActivity {
                     currentStep++;
                     handler.postDelayed(this, 1000);  // Delay between showing each step
                 }
+                else {
+                    enableClickOnThe4Colors();
+                }
+
             }
         }, 1000);  // Initial delay before starting the pattern
+    }
+    private void disableClickOnThe4Colors()
+    {
+        buttonBlue.setEnabled(false);
+        buttonRed.setEnabled(false);
+        buttonGreen.setEnabled(false);
+        buttonYellow.setEnabled(false);
+    }
+
+    private void enableClickOnThe4Colors()
+    {
+        buttonBlue.setEnabled(true);
+        buttonRed.setEnabled(true);
+        buttonGreen.setEnabled(true);
+        buttonYellow.setEnabled(true);
     }
 
     private void animateButton(int buttonNumber) {
         Button buttonToAnimate = null;
         switch (buttonNumber) {
             case 1:
-                buttonToAnimate = button1;
+                buttonToAnimate = buttonRed;
                 break;
             case 2:
-                buttonToAnimate = button2;
+                buttonToAnimate = buttonGreen;
                 break;
             case 3:
-                buttonToAnimate = button3;
+                buttonToAnimate = buttonBlue;
                 break;
             case 4:
-                buttonToAnimate = button4;
+                buttonToAnimate = buttonYellow;
                 break;
         }
 

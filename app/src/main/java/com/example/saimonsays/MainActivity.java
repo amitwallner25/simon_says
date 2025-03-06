@@ -3,6 +3,7 @@ package com.example.saimonsays;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent; // Import for starting a new Activity
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -51,24 +52,37 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 handleUserInput(1);
+                MediaPlayer rmp = MediaPlayer.create(MainActivity.this, R.raw.red);
+                rmp.setVolume(100,100);
+                rmp.start();
             }
         });
         buttonGreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleUserInput(2);
+                MediaPlayer gmp = MediaPlayer.create(MainActivity.this, R.raw.green);
+                gmp.setVolume(100,100);
+                gmp.start();
+
             }
         });
         buttonBlue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleUserInput(3);
+                MediaPlayer bmp = MediaPlayer.create(MainActivity.this, R.raw.blue);
+                bmp.setVolume(1000,1000);
+                bmp.start();
             }
         });
         buttonYellow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleUserInput(4);
+                MediaPlayer ymp = MediaPlayer.create(MainActivity.this, R.raw.yellow);
+                ymp.setVolume(100,100);
+                ymp.start();
             }
         });
         imageView.setOnClickListener(new View.OnClickListener() {

@@ -174,15 +174,27 @@ public class MainActivity extends AppCompatActivity {
         switch (buttonNumber) {
             case 1:
                 buttonToAnimate = buttonRed;
+                MediaPlayer rmp = MediaPlayer.create(MainActivity.this, R.raw.red);
+                rmp.setVolume(100,100);
+                rmp.start();
                 break;
             case 2:
                 buttonToAnimate = buttonGreen;
+                MediaPlayer gmp = MediaPlayer.create(MainActivity.this, R.raw.green);
+                gmp.setVolume(100,100);
+                gmp.start();
                 break;
             case 3:
                 buttonToAnimate = buttonBlue;
+                MediaPlayer bmp = MediaPlayer.create(MainActivity.this, R.raw.blue);
+                bmp.setVolume(1000,1000);
+                bmp.start();
                 break;
             case 4:
                 buttonToAnimate = buttonYellow;
+                MediaPlayer ymp = MediaPlayer.create(MainActivity.this, R.raw.yellow);
+                ymp.setVolume(100,100);
+                ymp.start();
                 break;
         }
 

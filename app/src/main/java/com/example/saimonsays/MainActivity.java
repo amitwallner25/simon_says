@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity {
 
     private Button buttonRed, buttonGreen, buttonBlue, buttonYellow;
-    private ImageView imageView;
+    private ImageView leaderBoardImageView, fragmentImageView;
     private TextView scoreTextView,highScoreTextView;
     private ArrayList<Integer> pattern = new ArrayList<>();
     private ArrayList<Integer> userInput = new ArrayList<>();
@@ -39,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView = findViewById(R.id.imageView);
+        leaderBoardImageView = findViewById(R.id.leaderBoardImageView);
+        fragmentImageView = findViewById(R.id.fragmentImageView);
         buttonRed = findViewById(R.id.buttonRed);
         buttonGreen = findViewById(R.id.buttonGreen);
         buttonBlue = findViewById(R.id.buttonBlue);
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 ymp.start();
             }
         });
-        imageView.setOnClickListener(new View.OnClickListener() {
+        leaderBoardImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, LeaderBoards.class);
@@ -93,6 +96,26 @@ public class MainActivity extends AppCompatActivity {
                 finish(); // Close this activity to prevent returning with the back button
             }
         });
+        fragmentImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SettingsFragment fragment = new SettingsFragment();
+
+                // Get FragmentManager and start transaction
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                // Replace container with fragment
+                fragmentTransaction.replace(R.id.fragmentContainerView, fragment);
+
+                // Add to back stack if you want to go back
+                fragmentTransaction.addToBackStack(null);
+
+                // Commit transaction
+                fragmentTransaction.commit();
+            }
+        });
+
 
         db = new GameDatabaseHelper(this);  // Initialize the database helper
 

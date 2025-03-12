@@ -11,54 +11,52 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:id="@+id/linearLayout2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+            <Button
+                android:id="@+id/buttonYellow"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:backgroundTint="@color/yellow" />
 
-                <Button
-                    android:id="@+id/buttonYellow"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:backgroundTint="@color/yellow" />
-
-                <Button
-                    android:id="@+id/buttonBlue"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:backgroundTint="@color/blue" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/buttonGreen"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:backgroundTint="@color/green" />
-
-                <Button
-                    android:id="@+id/buttonRed"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-
-                    android:backgroundTint="@color/red" />
-            </LinearLayout>
+            <Button
+                android:id="@+id/buttonBlue"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:backgroundTint="@color/blue" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/buttonGreen"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:backgroundTint="@color/green" />
+
+            <Button
+                android:id="@+id/buttonRed"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+
+                android:backgroundTint="@color/red" />
+        </LinearLayout>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

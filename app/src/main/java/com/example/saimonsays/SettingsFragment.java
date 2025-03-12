@@ -130,13 +130,11 @@ public class SettingsFragment extends Fragment {
             ObjectAnimator animator = ObjectAnimator.ofFloat(buttonToAnimate, "alpha", 0f, 1f);
             animator.setDuration(500);
             animator.start();
-            playSound(soundResId);
         }
     }
 
     private void handleUserInput(int buttonNumber, int soundResId) {
         userInput.add(buttonNumber);
-        playSound(soundResId);
 
         if (userInput.get(userInput.size() - 1).equals(pattern.get(userInput.size() - 1))) {
             if (userInput.size() == pattern.size()) {
@@ -158,11 +156,7 @@ public class SettingsFragment extends Fragment {
         }
     }
 
-    private void playSound(int resId) {
-        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), resId);
-        mediaPlayer.setVolume(100, 100);
-        mediaPlayer.start();
-    }
+
 
     public void setSimonSaysListener(SimonSaysListener listener) {
         this.listener = listener;

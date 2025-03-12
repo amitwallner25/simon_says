@@ -59,6 +59,16 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                 finish(); // Close this activity to prevent returning with the back button
             }
         });
+
+        settingsImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Settings.class);
+                startActivity(intent);
+                finish(); // Close this activity to prevent returning with the back button
+
+            }
+        });
     }
 
     private void loadSimonSaysFragment() {

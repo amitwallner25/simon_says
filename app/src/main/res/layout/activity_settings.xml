@@ -18,4 +18,31 @@
         android:backgroundTint="@color/cardcolor"
         app:srcCompat="@android:drawable/ic_menu_revert"/>
 
+    <Switch
+        android:id="@+id/musicSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background=""
+        android:text="Music"
+        android:layout_marginRight="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="200dp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/ButtonSoundsSwitch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:text="Button Sounds"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/musicSwitch" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

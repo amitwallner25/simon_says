@@ -6,13 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.Switch;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -47,7 +43,7 @@ public class Settings extends BaseActivity {
         returnButton = findViewById(R.id.returnButton);
         musicSwitch = findViewById(R.id.musicSwitch);
         buttonSoundsSwitch = findViewById(R.id.ButtonSoundsSwitch);
-        logoutButton = findViewById(R.id.button);
+        logoutButton = findViewById(R.id.logoutButton);
 
         // Set initial state of the music switch based on SharedPreferences
         boolean isMuted = preferences.getBoolean(KEY_MUTE_STATE, false);

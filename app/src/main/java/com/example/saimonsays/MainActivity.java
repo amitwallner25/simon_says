@@ -1,17 +1,12 @@
 package com.example.saimonsays;
 
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -19,37 +14,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements SettingsFragment.SimonSaysListener {
+public class MainActivity extends BaseActivity implements SettingsFragment.SimonSaysListener {
 
     private TextView scoreTextView, highScoreTextView;
     private ImageView leaderBoardImageView, settingsImageView;
-
     private String mUsername;
     private GameDatabaseHelper db;
-    private MusicService musicService;
-    private boolean bound = false;
-
-    private ServiceConnection connection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d("MainActivity", "Service connected");
-            MusicService.MusicBinder binder = (MusicService.MusicBinder) service;
-            musicService = binder.getService();
-            bound = true;
-            if (musicService != null) {
-                Log.d("MainActivity", "Starting music");
-                musicService.playMusic();
-            } else {
-                Log.e("MainActivity", "MusicService is null after binding");
-            }
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            Log.d("MainActivity", "Service disconnected");
-            bound = false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,12 +48,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
         // Load the Simon Says fragment
         loadSimonSaysFragment();
 
-        // Start and bind to the music service
-        Log.d("MainActivity", "Starting music service");
-        Intent intent = new Intent(this, MusicService.class);
-        startService(intent);
-        bindService(intent, connection, Context.BIND_AUTO_CREATE);
-
         leaderBoardImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,34 +63,8 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
                 Intent intent = new Intent(MainActivity.this, Settings.class);
                 startActivity(intent);
                 finish(); // Close this activity to prevent returning with the back button
-
             }
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (bound && musicService != null) {
-            musicService.playMusic();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        if (bound && musicService != null) {
-            musicService.pauseMusic();
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (bound) {
-            unbindService(connection);
-            bound = false;
-        }
     }
 
     private void loadSimonSaysFragment() {
@@ -183,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements SettingsFragment.
             Log.e("MainActivity", "Username is null. Cannot update high score.");
         }
     }
-
 
     private void updateRecord() {
         if (mUsername != null) {

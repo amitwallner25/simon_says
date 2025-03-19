@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SettingsFragment extends Fragment {
+public class DefaultFragment extends Fragment {
 
     private Button buttonRed, buttonGreen, buttonBlue, buttonYellow;
     private ArrayList<Integer> pattern = new ArrayList<>();
@@ -38,7 +38,7 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
+        View view = inflater.inflate(R.layout.fragment_default, container, false);
 
         preferences = requireActivity().getSharedPreferences(PREF_NAME, requireActivity().MODE_PRIVATE);
         buttonRed = view.findViewById(R.id.buttonRed);

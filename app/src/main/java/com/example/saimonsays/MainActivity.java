@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity implements SettingsFragment.SimonSaysListener {
+public class MainActivity extends BaseActivity implements DefaultFragment.SimonSaysListener {
 
     private TextView scoreTextView, highScoreTextView;
     private ImageView leaderBoardImageView, settingsImageView;
@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity implements SettingsFragment.Simon
     }
 
     private void loadSimonSaysFragment() {
-        SettingsFragment simonSaysFragment = new SettingsFragment();
+        DefaultFragment simonSaysFragment = new DefaultFragment();
         simonSaysFragment.setSimonSaysListener(this); // Attach listener to receive game updates
 
         FragmentManager fragmentManager = getSupportFragmentManager();

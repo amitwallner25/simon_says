@@ -57,7 +57,7 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragmentContainerView"
-            android:name="com.example.saimonsays.SettingsFragment"
+            android:name="com.example.saimonsays.DefaultFragment"
             android:layout_width="match_parent"
             android:layout_height="500dp"
             android:layout_marginBottom="0dp"

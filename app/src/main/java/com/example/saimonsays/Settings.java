@@ -21,11 +21,15 @@ public class Settings extends BaseActivity {
     private static final String PREF_NAME = "MusicPrefs";
     private static final String KEY_MUTE_STATE = "isMuted";
     private static final String KEY_BUTTON_SOUNDS_STATE = "buttonSoundsEnabled";
+    private static final String USER_PREF_NAME = "UserPrefs";
+    private static final String KEY_LOGGED_IN_USER = "loggedInUser";
 
     private ImageButton returnButton;
     private Switch musicSwitch;
     private Switch buttonSoundsSwitch;
+    private Button logoutButton;
     private SharedPreferences preferences;
+    private SharedPreferences userPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +43,11 @@ public class Settings extends BaseActivity {
         });
 
         preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        userPreferences = getSharedPreferences(USER_PREF_NAME, MODE_PRIVATE);
         returnButton = findViewById(R.id.returnButton);
         musicSwitch = findViewById(R.id.musicSwitch);
         buttonSoundsSwitch = findViewById(R.id.ButtonSoundsSwitch);
+        logoutButton = findViewById(R.id.button);
 
         // Set initial state of the music switch based on SharedPreferences
         boolean isMuted = preferences.getBoolean(KEY_MUTE_STATE, false);
@@ -62,6 +68,20 @@ public class Settings extends BaseActivity {
         // Handle button sounds switch state changes
         buttonSoundsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             preferences.edit().putBoolean(KEY_BUTTON_SOUNDS_STATE, isChecked).apply();
+        });
+
+        // Handle logout button click
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Clear the logged in user from SharedPreferences
+                userPreferences.edit().remove(KEY_LOGGED_IN_USER).apply();
+                
+                // Navigate to LoginActivity
+                Intent intent = new Intent(Settings.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
         });
 
         returnButton.setOnClickListener(new View.OnClickListener() {

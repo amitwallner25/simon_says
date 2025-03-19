@@ -1,6 +1,7 @@
 package com.example.saimonsays;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText usernameEditText, passwordEditText;
     private Button loginButton, registerButton;
     private GameDatabaseHelper db;
+    private static final String PREF_NAME = "UserPrefs";
+    private static final String KEY_LOGGED_IN_USER = "loggedInUser";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,18 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         registerButton = findViewById(R.id.registerButton);
 
+        // Check if user is already logged in
+        SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        String savedUsername = preferences.getString(KEY_LOGGED_IN_USER, null);
+        if (savedUsername != null) {
+            // Auto-login if user was previously logged in
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("username", savedUsername);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         // Handle Login
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +49,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (db.checkUser(username, password)) {
                     db.setCurrentLoggedInUser(username); // Update the current logged-in user
+                    // Save logged in user to SharedPreferences
+                    SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+                    preferences.edit().putString(KEY_LOGGED_IN_USER, username).apply();
+                    
                     // Successful login, move to MainActivity
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.putExtra("username", username); // Pass username
@@ -44,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +72,5 @@ public class LoginActivity extends AppCompatActivity {
                 finish(); // Close this activity to prevent returning with the back button
             }
         });
-
-
     }
 }

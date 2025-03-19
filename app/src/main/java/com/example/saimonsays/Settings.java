@@ -20,9 +20,11 @@ import androidx.core.view.WindowInsetsCompat;
 public class Settings extends BaseActivity {
     private static final String PREF_NAME = "MusicPrefs";
     private static final String KEY_MUTE_STATE = "isMuted";
+    private static final String KEY_BUTTON_SOUNDS_STATE = "buttonSoundsEnabled";
 
     private ImageButton returnButton;
     private Switch musicSwitch;
+    private Switch buttonSoundsSwitch;
     private SharedPreferences preferences;
 
     @Override
@@ -39,16 +41,27 @@ public class Settings extends BaseActivity {
         preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         returnButton = findViewById(R.id.returnButton);
         musicSwitch = findViewById(R.id.musicSwitch);
+        buttonSoundsSwitch = findViewById(R.id.ButtonSoundsSwitch);
 
-        // Set initial state of the switch based on SharedPreferences
+        // Set initial state of the music switch based on SharedPreferences
         boolean isMuted = preferences.getBoolean(KEY_MUTE_STATE, false);
         musicSwitch.setChecked(isMuted);
 
-        // Handle switch state changes
+        // Set initial state of the button sounds switch based on SharedPreferences
+        boolean buttonSoundsEnabled = preferences.getBoolean(KEY_BUTTON_SOUNDS_STATE, true);
+        buttonSoundsSwitch.setChecked(buttonSoundsEnabled);
+
+        // Handle music switch state changes
         musicSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (bound && musicService != null) {
                 musicService.setMute(isChecked);
+                preferences.edit().putBoolean(KEY_MUTE_STATE, isChecked).apply();
             }
+        });
+
+        // Handle button sounds switch state changes
+        buttonSoundsSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            preferences.edit().putBoolean(KEY_BUTTON_SOUNDS_STATE, isChecked).apply();
         });
 
         returnButton.setOnClickListener(new View.OnClickListener() {

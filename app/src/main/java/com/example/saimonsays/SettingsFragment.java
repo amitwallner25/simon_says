@@ -1,5 +1,6 @@
 package com.example.saimonsays;
 import android.animation.ObjectAnimator;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,6 +26,9 @@ public class SettingsFragment extends Fragment {
     private int currentStep = 0;
     private int score = 0;
     private SimonSaysListener listener;
+    private SharedPreferences preferences;
+    private static final String PREF_NAME = "MusicPrefs";
+    private static final String KEY_BUTTON_SOUNDS_STATE = "buttonSoundsEnabled";
 
     public interface SimonSaysListener {
         void onScoreUpdated(int newScore);
@@ -36,6 +40,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
+        preferences = requireActivity().getSharedPreferences(PREF_NAME, requireActivity().MODE_PRIVATE);
         buttonRed = view.findViewById(R.id.buttonRed);
         buttonGreen = view.findViewById(R.id.buttonGreen);
         buttonBlue = view.findViewById(R.id.buttonBlue);
@@ -158,9 +163,12 @@ public class SettingsFragment extends Fragment {
     }
 
     private void playSound(int resId) {
-        MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), resId);
-        mediaPlayer.setVolume(100, 100);
-        mediaPlayer.start();
+        boolean buttonSoundsEnabled = preferences.getBoolean(KEY_BUTTON_SOUNDS_STATE, true);
+        if (buttonSoundsEnabled) {
+            MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), resId);
+            mediaPlayer.setVolume(100, 100);
+            mediaPlayer.start();
+        }
     }
 
     public void setSimonSaysListener(SimonSaysListener listener) {

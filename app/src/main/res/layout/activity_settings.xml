@@ -70,21 +70,28 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <ImageButton
                     android:id="@+id/default_saimonSays_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    android:backgroundTint="@color/cardcolor"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/default_design_saimonsays" />
 
                 <ImageButton
                     android:id="@+id/scecondDesign_saimonSays_layout"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    android:backgroundTint="@color/cardcolor"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/scecond_design_saimonsays" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,17 +100,19 @@
 
                 <ToggleButton
                     android:id="@+id/default_saimonSays_ToggleButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:text="ToggleButton" />
+                    android:text="Default Design" />
 
                 <ToggleButton
                     android:id="@+id/scecondDesign_saimonSays_ToggleButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:text="ToggleButton" />
+                    android:text="Second Design" />
             </LinearLayout>
 
             <LinearLayout

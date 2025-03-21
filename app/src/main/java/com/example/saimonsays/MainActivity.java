@@ -15,7 +15,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity implements DefaultFragment.SimonSaysListener, SecondDesign.SimonSaysListener {
+public class MainActivity extends BaseActivity implements 
+    DefaultFragment.SimonSaysListener, 
+    SecondDesign.SimonSaysListener,
+    ThirdDesign.ThirdDesignListener,
+    FourthDesign.FourthDesignListener {
 
     private TextView scoreTextView, highScoreTextView;
     private ImageView leaderBoardImageView, settingsImageView;
@@ -65,29 +69,54 @@ public class MainActivity extends BaseActivity implements DefaultFragment.SimonS
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Settings.class);
                 startActivity(intent);
-                finish(); // Close this activity to prevent returning with the back button
+                // Removed finish() to prevent activity recreation
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("MainActivity", "onResume called, reloading fragment");
+        loadFragment();
     }
 
     private void loadFragment() {
         SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         String currentFragment = preferences.getString(KEY_FRAGMENT_STATE, "default");
+        Log.d("MainActivity", "Loading fragment: " + currentFragment);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        if (currentFragment.equals("default")) {
-            DefaultFragment simonSaysFragment = new DefaultFragment();
-            simonSaysFragment.setSimonSaysListener(this);
-            fragmentTransaction.replace(R.id.fragmentContainerView, simonSaysFragment);
-        } else {
-            SecondDesign secondDesignFragment = new SecondDesign();
-            secondDesignFragment.setSimonSaysListener(this);
-            fragmentTransaction.replace(R.id.fragmentContainerView, secondDesignFragment);
-        }
+        try {
+            if (currentFragment.equals("default")) {
+                Log.d("MainActivity", "Creating DefaultFragment");
+                DefaultFragment simonSaysFragment = new DefaultFragment();
+                simonSaysFragment.setSimonSaysListener(this);
+                fragmentTransaction.replace(R.id.fragmentContainerView, simonSaysFragment);
+            } else if (currentFragment.equals("second")) {
+                Log.d("MainActivity", "Creating SecondDesign");
+                SecondDesign secondDesignFragment = new SecondDesign();
+                secondDesignFragment.setSimonSaysListener(this);
+                fragmentTransaction.replace(R.id.fragmentContainerView, secondDesignFragment);
+            } else if (currentFragment.equals("third")) {
+                Log.d("MainActivity", "Creating ThirdDesign");
+                ThirdDesign thirdDesignFragment = new ThirdDesign();
+                thirdDesignFragment.setThirdDesignListener(this);
+                fragmentTransaction.replace(R.id.fragmentContainerView, thirdDesignFragment);
+            } else if (currentFragment.equals("fourth")) {
+                Log.d("MainActivity", "Creating FourthDesign");
+                FourthDesign fourthDesignFragment = new FourthDesign();
+                fourthDesignFragment.setFourthDesignListener(this);
+                fragmentTransaction.replace(R.id.fragmentContainerView, fourthDesignFragment);
+            }
 
-        fragmentTransaction.commit();
+            fragmentTransaction.commitAllowingStateLoss();
+            Log.d("MainActivity", "Fragment transaction committed successfully");
+        } catch (Exception e) {
+            Log.e("MainActivity", "Error loading fragment: " + e.getMessage());
+        }
     }
 
     @Override

@@ -128,7 +128,7 @@
                     app:srcCompat="@drawable/third_design_saimonsays" />
 
                 <ImageButton
-                    android:id="@+id/imageButton6"
+                    android:id="@+id/fourthDesign_simonsays_imagebutton"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
                     android:layout_margin="8dp"
@@ -143,14 +143,14 @@
                 android:orientation="horizontal">
 
                 <ToggleButton
-                    android:id="@+id/toggleButton8"
+                    android:id="@+id/thirdDesign_simonsays_ToggleButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="ToggleButton" />
 
                 <ToggleButton
-                    android:id="@+id/toggleButton9"
+                    android:id="@+id/fourthDesign_simonsays_ToggleButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

@@ -3,6 +3,7 @@ package com.example.saimonsays;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -26,10 +27,14 @@ public class Settings extends BaseActivity {
     private Switch musicSwitch;
     private Switch buttonSoundsSwitch;
     private Button logoutButton;
-    private ImageButton imageButton2;
-    private ImageButton imageButton3;
-    private ToggleButton toggleButton2;
-    private ToggleButton toggleButton3;
+    private ImageButton defaultLayoutButton;
+    private ImageButton secondLayoutButton;
+    private ImageButton thirdLayoutButton;
+    private ImageButton fourthLayoutButton;
+    private ToggleButton defaultToggleButton;
+    private ToggleButton secondToggleButton;
+    private ToggleButton thirdToggleButton;
+    private ToggleButton fourthToggleButton;
     private SharedPreferences preferences;
     private SharedPreferences userPreferences;
 
@@ -50,10 +55,18 @@ public class Settings extends BaseActivity {
         musicSwitch = findViewById(R.id.musicSwitch);
         buttonSoundsSwitch = findViewById(R.id.ButtonSoundsSwitch);
         logoutButton = findViewById(R.id.logoutButton);
-        imageButton2 = findViewById(R.id.default_saimonSays_layout);
-        imageButton3 = findViewById(R.id.scecondDesign_saimonSays_layout);
-        toggleButton2 = findViewById(R.id.default_saimonSays_ToggleButton);
-        toggleButton3 = findViewById(R.id.scecondDesign_saimonSays_ToggleButton);
+        
+        // Initialize layout buttons
+        defaultLayoutButton = findViewById(R.id.default_saimonSays_layout);
+        secondLayoutButton = findViewById(R.id.scecondDesign_saimonSays_layout);
+        thirdLayoutButton = findViewById(R.id.thirdDesign_simonsays_imagebutton);
+        fourthLayoutButton = findViewById(R.id.fourthDesign_simonsays_imagebutton);
+        
+        // Initialize toggle buttons
+        defaultToggleButton = findViewById(R.id.default_saimonSays_ToggleButton);
+        secondToggleButton = findViewById(R.id.scecondDesign_saimonSays_ToggleButton);
+        thirdToggleButton = findViewById(R.id.thirdDesign_simonsays_ToggleButton);
+        fourthToggleButton = findViewById(R.id.fourthDesign_simonsays_ToggleButton);
 
         // Set initial state of the music switch based on SharedPreferences
         boolean isMuted = preferences.getBoolean(KEY_MUTE_STATE, false);
@@ -65,12 +78,19 @@ public class Settings extends BaseActivity {
 
         // Set initial state of fragment selection
         String currentFragment = preferences.getString(KEY_FRAGMENT_STATE, "default");
-        if (currentFragment.equals("default")) {
-            toggleButton2.setChecked(true);
-            toggleButton3.setChecked(false);
-        } else {
-            toggleButton2.setChecked(false);
-            toggleButton3.setChecked(true);
+        switch (currentFragment) {
+            case "default":
+                defaultToggleButton.setChecked(true);
+                break;
+            case "second":
+                secondToggleButton.setChecked(true);
+                break;
+            case "third":
+                thirdToggleButton.setChecked(true);
+                break;
+            case "fourth":
+                fourthToggleButton.setChecked(true);
+                break;
         }
 
         // Handle music switch state changes
@@ -88,21 +108,37 @@ public class Settings extends BaseActivity {
 
         // Handle fragment selection
         View.OnClickListener fragmentClickListener = v -> {
-            if (v == imageButton2 || v == toggleButton2) {
-                preferences.edit().putString(KEY_FRAGMENT_STATE, "default").apply();
-                toggleButton2.setChecked(true);
-                toggleButton3.setChecked(false);
-            } else if (v == imageButton3 || v == toggleButton3) {
-                preferences.edit().putString(KEY_FRAGMENT_STATE, "second").apply();
-                toggleButton2.setChecked(false);
-                toggleButton3.setChecked(true);
+            // Uncheck all toggle buttons
+            defaultToggleButton.setChecked(false);
+            secondToggleButton.setChecked(false);
+            thirdToggleButton.setChecked(false);
+            fourthToggleButton.setChecked(false);
+
+            // Check the corresponding toggle button and update fragment
+            if (v == defaultLayoutButton || v == defaultToggleButton) {
+                defaultToggleButton.setChecked(true);
+                updateFragment("default");
+            } else if (v == secondLayoutButton || v == secondToggleButton) {
+                secondToggleButton.setChecked(true);
+                updateFragment("second");
+            } else if (v == thirdLayoutButton || v == thirdToggleButton) {
+                thirdToggleButton.setChecked(true);
+                updateFragment("third");
+            } else if (v == fourthLayoutButton || v == fourthToggleButton) {
+                fourthToggleButton.setChecked(true);
+                updateFragment("fourth");
             }
         };
 
-        imageButton2.setOnClickListener(fragmentClickListener);
-        imageButton3.setOnClickListener(fragmentClickListener);
-        toggleButton2.setOnClickListener(fragmentClickListener);
-        toggleButton3.setOnClickListener(fragmentClickListener);
+        // Set click listeners for all buttons
+        defaultLayoutButton.setOnClickListener(fragmentClickListener);
+        secondLayoutButton.setOnClickListener(fragmentClickListener);
+        thirdLayoutButton.setOnClickListener(fragmentClickListener);
+        fourthLayoutButton.setOnClickListener(fragmentClickListener);
+        defaultToggleButton.setOnClickListener(fragmentClickListener);
+        secondToggleButton.setOnClickListener(fragmentClickListener);
+        thirdToggleButton.setOnClickListener(fragmentClickListener);
+        fourthToggleButton.setOnClickListener(fragmentClickListener);
 
         // Handle logout button click
         logoutButton.setOnClickListener(new View.OnClickListener() {
@@ -126,5 +162,13 @@ public class Settings extends BaseActivity {
                 finish();
             }
         });
+    }
+
+    private void updateFragment(String fragmentType) {
+        Log.d("Settings", "Updating fragment to: " + fragmentType);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(KEY_FRAGMENT_STATE, fragmentType);
+        editor.apply();
+        Log.d("Settings", "Fragment state updated and saved");
     }
 }

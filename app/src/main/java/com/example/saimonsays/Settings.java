@@ -50,10 +50,10 @@ public class Settings extends BaseActivity {
         musicSwitch = findViewById(R.id.musicSwitch);
         buttonSoundsSwitch = findViewById(R.id.ButtonSoundsSwitch);
         logoutButton = findViewById(R.id.logoutButton);
-        imageButton2 = findViewById(R.id.imageButton2);
-        imageButton3 = findViewById(R.id.imageButton3);
-        toggleButton2 = findViewById(R.id.toggleButton2);
-        toggleButton3 = findViewById(R.id.toggleButton3);
+        imageButton2 = findViewById(R.id.default_saimonSays_layout);
+        imageButton3 = findViewById(R.id.scecondDesign_saimonSays_layout);
+        toggleButton2 = findViewById(R.id.default_saimonSays_ToggleButton);
+        toggleButton3 = findViewById(R.id.scecondDesign_saimonSays_ToggleButton);
 
         // Set initial state of the music switch based on SharedPreferences
         boolean isMuted = preferences.getBoolean(KEY_MUTE_STATE, false);

@@ -30,12 +30,10 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
 
-        android:layout_marginBottom="75dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settingsTextview">
@@ -47,6 +45,7 @@
             android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
             android:text="Music"
+            android:textSize="25dp"
             android:textColor="@color/white" />
 
         <Switch
@@ -57,6 +56,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginRight="50dp"
             android:text="Button Sounds"
+            android:textSize="25dp"
             android:textColor="@color/white" />
 
         <LinearLayout
@@ -64,7 +64,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:orientation="vertical">
-
 
 
             <LinearLayout
@@ -91,6 +90,7 @@
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/scecond_design_saimonsays" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -134,8 +134,9 @@
                     android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
-                    app:srcCompat="@drawable/scecond_design_saimonsays" />
+                    app:srcCompat="@drawable/fourth_design_saimopnsays" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

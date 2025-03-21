@@ -25,7 +25,7 @@
                 android:id="@+id/buttonYellow"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:background="@drawable/triangle_yellow"
+                android:background="@drawable/diamond_yellow"
                 android:scaleType="fitCenter"
                 android:contentDescription="Yellow button" />
 
@@ -33,7 +33,7 @@
                 android:id="@+id/buttonBlue"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:background="@drawable/triangle_blue"
+                android:background="@drawable/diamond_blue"
                 android:scaleType="fitCenter"
                 android:contentDescription="Blue button" />
         </LinearLayout>
@@ -51,7 +51,7 @@
                 android:id="@+id/buttonGreen"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:background="@drawable/triangle_green"
+                android:background="@drawable/diamond_green"
                 android:scaleType="fitCenter"
                 android:contentDescription="Green button" />
 
@@ -59,7 +59,7 @@
                 android:id="@+id/buttonRed"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                android:background="@drawable/triangle_red"
+                android:background="@drawable/diamond_red"
                 android:scaleType="fitCenter"
                 android:contentDescription="Red button" />
         </LinearLayout>

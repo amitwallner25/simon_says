@@ -1,6 +1,7 @@
 package com.example.saimonsays;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,12 +15,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity implements DefaultFragment.SimonSaysListener {
+public class MainActivity extends BaseActivity implements DefaultFragment.SimonSaysListener, SecondDesign.SimonSaysListener {
 
     private TextView scoreTextView, highScoreTextView;
     private ImageView leaderBoardImageView, settingsImageView;
     private String mUsername;
     private GameDatabaseHelper db;
+    private static final String PREF_NAME = "MusicPrefs";
+    private static final String KEY_FRAGMENT_STATE = "currentFragment";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +48,8 @@ public class MainActivity extends BaseActivity implements DefaultFragment.SimonS
             updateRecord(); // Update high score display
         }
 
-        // Load the Simon Says fragment
-        loadSimonSaysFragment();
+        // Load the appropriate fragment based on saved preference
+        loadFragment();
 
         leaderBoardImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,13 +70,23 @@ public class MainActivity extends BaseActivity implements DefaultFragment.SimonS
         });
     }
 
-    private void loadSimonSaysFragment() {
-        DefaultFragment simonSaysFragment = new DefaultFragment();
-        simonSaysFragment.setSimonSaysListener(this); // Attach listener to receive game updates
+    private void loadFragment() {
+        SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
+        String currentFragment = preferences.getString(KEY_FRAGMENT_STATE, "default");
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragmentContainerView, simonSaysFragment);
+
+        if (currentFragment.equals("default")) {
+            DefaultFragment simonSaysFragment = new DefaultFragment();
+            simonSaysFragment.setSimonSaysListener(this);
+            fragmentTransaction.replace(R.id.fragmentContainerView, simonSaysFragment);
+        } else {
+            SecondDesign secondDesignFragment = new SecondDesign();
+            secondDesignFragment.setSimonSaysListener(this);
+            fragmentTransaction.replace(R.id.fragmentContainerView, secondDesignFragment);
+        }
+
         fragmentTransaction.commit();
     }
 

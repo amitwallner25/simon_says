@@ -1,64 +1,184 @@
 package com.example.saimonsays;
 
+import android.animation.ObjectAnimator;
+import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SecondDesign#newInstance} factory method to
- * create an instance of this fragment.
- */
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+
 public class SecondDesign extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private ImageButton buttonRed, buttonGreen, buttonBlue, buttonYellow;
+    private ArrayList<Integer> pattern = new ArrayList<>();
+    private ArrayList<Integer> userInput = new ArrayList<>();
+    private Handler handler = new Handler();
+    private Random random = new Random();
+    private int currentStep = 0;
+    private int score = 0;
+    private SimonSaysListener listener;
+    private SharedPreferences preferences;
+    private static final String PREF_NAME = "MusicPrefs";
+    private static final String KEY_BUTTON_SOUNDS_STATE = "buttonSoundsEnabled";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    public interface SimonSaysListener {
+        void onScoreUpdated(int newScore);
+        void onGameFailed(int finalScore);
+    }
 
     public SecondDesign() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SecondDesign.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static SecondDesign newInstance(String param1, String param2) {
-        SecondDesign fragment = new SecondDesign();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_second_design, container, false);
+
+        preferences = requireActivity().getSharedPreferences(PREF_NAME, requireActivity().MODE_PRIVATE);
+        buttonRed = view.findViewById(R.id.buttonRed);
+        buttonGreen = view.findViewById(R.id.buttonGreen);
+        buttonBlue = view.findViewById(R.id.buttonBlue);
+        buttonYellow = view.findViewById(R.id.buttonYellow);
+
+        setupButtonListeners();
+        startGame();
+
+        return view;
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    private void setupButtonListeners() {
+        buttonRed.setOnClickListener(v -> handleUserInput(1, R.raw.red));
+        buttonGreen.setOnClickListener(v -> handleUserInput(2, R.raw.green));
+        buttonBlue.setOnClickListener(v -> handleUserInput(3, R.raw.blue));
+        buttonYellow.setOnClickListener(v -> handleUserInput(4, R.raw.yellow));
+    }
+
+    private void startGame() {
+        resetGame();
+        addStepToPattern();
+        showPattern();
+    }
+
+    private void resetGame() {
+        pattern.clear();
+        userInput.clear();
+        score = 0;
+        updateScore();
+    }
+
+    private void addStepToPattern() {
+        pattern.add(random.nextInt(4) + 1);
+    }
+
+    private void showPattern() {
+        disableClickOnThe4Colors();
+        currentStep = 0;
+        userInput.clear();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (currentStep < pattern.size()) {
+                    animateButton(pattern.get(currentStep));
+                    currentStep++;
+                    handler.postDelayed(this, 1000);
+                } else {
+                    enableClickOnThe4Colors();
+                }
+            }
+        }, 1000);
+    }
+
+    private void disableClickOnThe4Colors() {
+        buttonBlue.setEnabled(false);
+        buttonRed.setEnabled(false);
+        buttonGreen.setEnabled(false);
+        buttonYellow.setEnabled(false);
+    }
+
+    private void enableClickOnThe4Colors() {
+        buttonBlue.setEnabled(true);
+        buttonRed.setEnabled(true);
+        buttonGreen.setEnabled(true);
+        buttonYellow.setEnabled(true);
+    }
+
+    private void animateButton(int buttonNumber) {
+        ImageButton buttonToAnimate = null;
+        int soundResId = 0;
+
+        switch (buttonNumber) {
+            case 1:
+                buttonToAnimate = buttonRed;
+                soundResId = R.raw.red;
+                break;
+            case 2:
+                buttonToAnimate = buttonGreen;
+                soundResId = R.raw.green;
+                break;
+            case 3:
+                buttonToAnimate = buttonBlue;
+                soundResId = R.raw.blue;
+                break;
+            case 4:
+                buttonToAnimate = buttonYellow;
+                soundResId = R.raw.yellow;
+                break;
+        }
+
+        if (buttonToAnimate != null) {
+            ObjectAnimator animator = ObjectAnimator.ofFloat(buttonToAnimate, "alpha", 0f, 1f);
+            animator.setDuration(500);
+            animator.start();
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second_design, container, false);
+    private void handleUserInput(int buttonNumber, int soundResId) {
+        userInput.add(buttonNumber);
+        playSound(soundResId);
+
+        if (userInput.get(userInput.size() - 1).equals(pattern.get(userInput.size() - 1))) {
+            if (userInput.size() == pattern.size()) {
+                score++;
+                updateScore();
+                addStepToPattern();
+                showPattern();
+            }
+        } else {
+            if (listener != null) {
+                listener.onGameFailed(score);
+            }
+        }
+    }
+
+    private void updateScore() {
+        if (listener != null) {
+            listener.onScoreUpdated(score);
+        }
+    }
+
+    private void playSound(int resId) {
+        boolean buttonSoundsEnabled = preferences.getBoolean(KEY_BUTTON_SOUNDS_STATE, true);
+        if (buttonSoundsEnabled) {
+            MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), resId);
+            mediaPlayer.setVolume(100, 100);
+            mediaPlayer.start();
+        }
+    }
+
+    public void setSimonSaysListener(SimonSaysListener listener) {
+        this.listener = listener;
     }
 }

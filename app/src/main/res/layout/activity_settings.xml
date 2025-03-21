@@ -79,7 +79,6 @@
                     android:layout_height="150dp"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/cardcolor"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/default_design_saimonsays" />
 
@@ -89,7 +88,6 @@
                     android:layout_height="150dp"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/cardcolor"
                     android:scaleType="fitCenter"
                     app:srcCompat="@drawable/scecond_design_saimonsays" />
             </LinearLayout>
@@ -120,21 +118,23 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
-
                 <ImageButton
-                    android:id="@+id/imageButton5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/thirdDesign_simonsays_imagebutton"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/third_design_saimonsays" />
 
                 <ImageButton
                     android:id="@+id/imageButton6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
-                    tools:srcCompat="@tools:sample/avatars" />
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/scecond_design_saimonsays" />
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"

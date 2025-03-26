@@ -15,7 +15,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-public class Settings extends BaseActivity {
+public class Settings extends MusicActivity {
     private static final String PREF_NAME = "MusicPrefs";
     private static final String KEY_MUTE_STATE = "isMuted";
     private static final String KEY_BUTTON_SOUNDS_STATE = "buttonSoundsEnabled";

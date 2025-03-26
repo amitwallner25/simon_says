@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class FailedActivity extends BaseActivity {
+public class FailedActivity extends MusicActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

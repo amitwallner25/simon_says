@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends BaseActivity implements 
+public class MainActivity extends MusicActivity implements
     DefaultFragment.SimonSaysListener, 
     SecondDesign.SimonSaysListener,
     ThirdDesign.ThirdDesignListener,

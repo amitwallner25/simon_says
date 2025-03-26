@@ -9,7 +9,7 @@ import android.os.IBinder;
 import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class BaseActivity extends AppCompatActivity {
+public class MusicActivity extends AppCompatActivity {
     protected MusicService musicService;
     protected boolean bound = false;
 

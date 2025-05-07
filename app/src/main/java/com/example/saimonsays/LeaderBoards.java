@@ -27,10 +27,15 @@ public class LeaderBoards extends MusicActivity {
         ImageButton imageButton = findViewById(R.id.imageButton);
 
         dbHelper = new GameDatabaseHelper(this);
+        playerList = dbHelper.getAllPlayers(); // Fetch players from DB
+        playerList.sort(new Comparator<CardModel>() {
+            @Override
+            public int compare(CardModel c1, CardModel c2) {
+                return Integer.compare(c1.getScore(), c2.getScore());
+            }
+        });
+
         adapter = new CardAdapter(this, playerList);
-        refreshData(); // Fetch players from DB
-
-
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 

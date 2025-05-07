@@ -31,7 +31,7 @@ public class LeaderBoards extends MusicActivity {
         playerList.sort(new Comparator<CardModel>() {
             @Override
             public int compare(CardModel c1, CardModel c2) {
-                return Integer.compare(c2.getScore(), c1.getScore()); // Descending
+                return Integer.compare(c1.getScore(), c2.getScore());
             }
         });
 

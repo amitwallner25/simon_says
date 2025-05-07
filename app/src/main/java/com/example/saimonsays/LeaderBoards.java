@@ -28,12 +28,6 @@ public class LeaderBoards extends MusicActivity {
 
         dbHelper = new GameDatabaseHelper(this);
         playerList = dbHelper.getAllPlayers(); // Fetch players from DB
-        playerList.sort(new Comparator<CardModel>() {
-            @Override
-            public int compare(CardModel c1, CardModel c2) {
-                return Integer.compare(c1.getScore(), c2.getScore());
-            }
-        });
 
         adapter = new CardAdapter(this, playerList);
         recyclerView.setAdapter(adapter);
@@ -57,7 +51,7 @@ public class LeaderBoards extends MusicActivity {
         playerList.sort(new Comparator<CardModel>() {
             @Override
             public int compare(CardModel c1, CardModel c2) {
-                return Integer.compare(c1.getScore(), c2.getScore());
+                return Integer.compare(c2.getScore(), c1.getScore());
             }
         });
         adapter.updateData(playerList); // Update RecyclerView

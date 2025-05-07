@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class LeaderBoards extends MusicActivity {
     private RecyclerView recyclerView;
@@ -26,6 +28,12 @@ public class LeaderBoards extends MusicActivity {
 
         dbHelper = new GameDatabaseHelper(this);
         playerList = dbHelper.getAllPlayers(); // Fetch players from DB
+        playerList.sort(new Comparator<CardModel>() {
+            @Override
+            public int compare(CardModel c1, CardModel c2) {
+                return Integer.compare(c2.getScore(), c1.getScore()); // Descending
+            }
+        });
 
         adapter = new CardAdapter(this, playerList);
         recyclerView.setAdapter(adapter);

@@ -14,12 +14,12 @@
         android:id="@+id/usernameEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
-        android:layout_marginBottom="10dp"
-        android:textColor="@color/black"
+        android:layout_marginBottom="50dp"
         android:background="@color/white"
+        android:hint="Username"
         android:inputType="textPersonName"
         android:padding="10dp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/passwordEditText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -28,12 +28,12 @@
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="170dp"
-        android:textColor="@color/black"
+        android:layout_marginBottom="200dp"
         android:background="@color/white"
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="10dp"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/registerButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -69,4 +69,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerButton" />
+
+    <TextView
+        android:id="@+id/passwordInformationTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/light_gray"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp"
+        android:text="Password must be between 4-15 letters"
+        app:layout_constraintEnd_toEndOf="@+id/passwordEditText"
+        app:layout_constraintTop_toBottomOf="@+id/passwordEditText" />
+
+    <TextView
+        android:id="@+id/usernameInformationTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/light_gray"
+        android:layout_marginTop="10dp"
+        android:textSize="15dp"
+        android:text="Username must be between 3-15 letters"
+        app:layout_constraintEnd_toEndOf="@+id/usernameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/usernameEditText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

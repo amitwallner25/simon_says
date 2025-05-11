@@ -43,6 +43,19 @@ public class RegisterActivity extends AppCompatActivity {
                     Toast.makeText(RegisterActivity.this, "Username already exists. Please choose a different one.", Toast.LENGTH_SHORT).show();
                     return; // Stop further execution
                 }
+                if(username == null || username.isEmpty() || username.length() < 3 || username.length() > 15 && password == null || password.isEmpty() || password.length() < 4 || username.length() > 15 )
+                {
+                    Toast.makeText(RegisterActivity.this, "Invalid username or password. Please try again.", Toast.LENGTH_SHORT).show();
+                    return; // Stop further execution
+                }
+                else if ( username == null || username.isEmpty() || username.length() < 3 || username.length() > 15) {
+                    Toast.makeText(RegisterActivity.this, "Name is invalid. Please choose a different one.", Toast.LENGTH_SHORT).show();
+                    return; // Stop further execution
+                }
+                else if ( password == null || password.isEmpty() || password.length() < 4 || username.length() > 15) {
+                    Toast.makeText(RegisterActivity.this, "Password is invalid. Please choose a different one.", Toast.LENGTH_SHORT).show();
+                    return; // Stop further execution
+                }
 
                 // Add the new player to the database
                 db.addPlayer(username, password); // Assuming initial highest score and hsDate are empty

@@ -27,6 +27,7 @@ public class MainActivity extends MusicActivity implements
     private GameDatabaseHelper db;
     private static final String PREF_NAME = "MusicPrefs";
     private static final String KEY_FRAGMENT_STATE = "currentFragment";
+    private static final String KEY_USERNAME = "userName";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +85,13 @@ public class MainActivity extends MusicActivity implements
     private void loadFragment() {
         SharedPreferences preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         String currentFragment = preferences.getString(KEY_FRAGMENT_STATE, "default");
-        Log.d("MainActivity", "Loading fragment: " + currentFragment);
+        String lastSavedUser = preferences.getString(KEY_USERNAME,"nvjcxknvfjioe68df1bvdfsnviudsnviodsnvujcx");
+        Log.d("MainActivity", "Loading fragment: " + currentFragment +" For User: "+lastSavedUser);
 
+        if (!lastSavedUser.equals(db.getCurrentLoggedIn()))
+        {
+            currentFragment = "default";
+        }
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 

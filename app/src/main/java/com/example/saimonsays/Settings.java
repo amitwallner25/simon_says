@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 public class Settings extends MusicActivity {
     private static final String PREF_NAME = "MusicPrefs";
     private static final String KEY_MUTE_STATE = "isMuted";
+    private static final String KEY_USERNAME = "userName";
     private static final String KEY_BUTTON_SOUNDS_STATE = "buttonSoundsEnabled";
     private static final String USER_PREF_NAME = "UserPrefs";
     private static final String KEY_LOGGED_IN_USER = "loggedInUser";
@@ -37,6 +38,7 @@ public class Settings extends MusicActivity {
     private ToggleButton fourthToggleButton;
     private SharedPreferences preferences;
     private SharedPreferences userPreferences;
+    private GameDatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class Settings extends MusicActivity {
             return insets;
         });
 
+        db = new GameDatabaseHelper(this);
         preferences = getSharedPreferences(PREF_NAME, MODE_PRIVATE);
         userPreferences = getSharedPreferences(USER_PREF_NAME, MODE_PRIVATE);
         returnButton = findViewById(R.id.returnButton);
@@ -166,8 +169,11 @@ public class Settings extends MusicActivity {
 
     private void updateFragment(String fragmentType) {
         Log.d("Settings", "Updating fragment to: " + fragmentType);
+        String currentUserName = db.getCurrentLoggedIn();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString(KEY_FRAGMENT_STATE, fragmentType);
+        editor.putString(KEY_USERNAME,currentUserName);
+        Log.d("Settings", "Username: "+currentUserName +", fragmentType: "+fragmentType);
         editor.apply();
         Log.d("Settings", "Fragment state updated and saved");
     }

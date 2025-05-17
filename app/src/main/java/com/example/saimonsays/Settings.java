@@ -1,5 +1,7 @@
 package com.example.saimonsays;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -147,13 +149,22 @@ public class Settings extends MusicActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Clear the logged in user from SharedPreferences
-                userPreferences.edit().remove(KEY_LOGGED_IN_USER).apply();
-                
-                // Navigate to LoginActivity
-                Intent intent = new Intent(Settings.this, LoginActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
+                new AlertDialog.Builder(Settings.this)
+                        .setTitle("Confirm Logout")
+                        .setMessage("Are you sure you want to logout?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Clear the logged in user from SharedPreferences
+                                userPreferences.edit().remove(KEY_LOGGED_IN_USER).apply();
+
+                                // Navigate to LoginActivity
+                                Intent intent = new Intent(Settings.this, LoginActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("No", null) // Dismisses the dialog
+                        .show();
             }
         });
 

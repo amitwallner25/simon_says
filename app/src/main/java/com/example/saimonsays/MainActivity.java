@@ -28,6 +28,7 @@ public class MainActivity extends MusicActivity implements
     private static final String PREF_NAME = "MusicPrefs";
     private static final String KEY_FRAGMENT_STATE = "currentFragment";
     private static final String KEY_USERNAME = "userName";
+    private int currentScore = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,11 @@ public class MainActivity extends MusicActivity implements
         leaderBoardImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentScore > 0) {
+                    onGameFailed(currentScore);
+                    scoreTextView.setText("Score: 0");
+                    currentScore = 0;
+                }
                 Intent intent = new Intent(MainActivity.this, LeaderBoards.class);
                 startActivity(intent);
                 finish(); // Close this activity to prevent returning with the back button
@@ -68,6 +74,11 @@ public class MainActivity extends MusicActivity implements
         settingsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (currentScore > 0) {
+                    onGameFailed(currentScore);
+                    scoreTextView.setText("Score: 0");
+                    currentScore = 0;
+                }
                 Intent intent = new Intent(MainActivity.this, Settings.class);
                 startActivity(intent);
                 // Removed finish() to prevent activity recreation
@@ -127,6 +138,7 @@ public class MainActivity extends MusicActivity implements
 
     @Override
     public void onScoreUpdated(int newScore) {
+        currentScore = newScore;
         scoreTextView.setText("Score: " + newScore);
         if (mUsername != null) {
             db.updateScore(mUsername, newScore);

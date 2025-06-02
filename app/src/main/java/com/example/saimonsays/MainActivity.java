@@ -17,7 +17,7 @@ import java.util.Locale;
 
 public class MainActivity extends MusicActivity implements
     DefaultFragment.SimonSaysListener, 
-    SecondDesign.SimonSaysListener,
+    SecondDesign.SecondDesignListener,
     ThirdDesign.ThirdDesignListener,
     FourthDesign.FourthDesignListener {
 
@@ -104,7 +104,7 @@ public class MainActivity extends MusicActivity implements
             } else if (currentFragment.equals("second")) {
                 Log.d("MainActivity", "Creating SecondDesign");
                 SecondDesign secondDesignFragment = new SecondDesign();
-                secondDesignFragment.setSimonSaysListener(this);
+                secondDesignFragment.setSecondDesignListener(this);
                 fragmentTransaction.replace(R.id.fragmentContainerView, secondDesignFragment);
             } else if (currentFragment.equals("third")) {
                 Log.d("MainActivity", "Creating ThirdDesign");

@@ -1,74 +1,53 @@
 package com.example.saimonsays;
 
-import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class SecondDesign extends BaseFragment {
+/**
+ * Base fragment class that contains common functionality shared across all Simon Says game fragments.
+ * This class handles basic game mechanics, sound management, and UI interactions.
+ */
+public abstract class BaseFragment extends Fragment {
+    protected ImageButton buttonRed, buttonGreen, buttonBlue, buttonYellow;
+    protected ArrayList<Integer> pattern = new ArrayList<>();
+    protected ArrayList<Integer> userInput = new ArrayList<>();
+    protected Handler handler = new Handler();
+    protected Random random = new Random();
+    protected int currentStep = 0;
+    protected int score = 0;
+    protected SharedPreferences preferences;
+    protected static final String PREF_NAME = "MusicPrefs";
+    protected static final String KEY_BUTTON_SOUNDS_STATE = "buttonSoundsEnabled";
 
-    private ImageButton buttonRed, buttonGreen, buttonBlue, buttonYellow;
-    private ArrayList<Integer> pattern = new ArrayList<>();
-    private ArrayList<Integer> userInput = new ArrayList<>();
-    private Handler handler = new Handler();
-    private Random random = new Random();
-    private int currentStep = 0;
-    private int score = 0;
-    private SecondDesignListener listener;
-    private SharedPreferences preferences;
-    private static final String PREF_NAME = "MusicPrefs";
-    private static final String KEY_BUTTON_SOUNDS_STATE = "buttonSoundsEnabled";
-
-    public interface SecondDesignListener {
-        void onScoreUpdated(int newScore);
-        void onGameFailed(int finalScore);
-    }
-
-    public SecondDesign() {
-        // Required empty public constructor
-    }
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_second_design, container, false);
-
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         preferences = requireActivity().getSharedPreferences(PREF_NAME, requireActivity().MODE_PRIVATE);
-        buttonRed = view.findViewById(R.id.buttonRed);
-        buttonGreen = view.findViewById(R.id.buttonGreen);
-        buttonBlue = view.findViewById(R.id.buttonBlue);
-        buttonYellow = view.findViewById(R.id.buttonYellow);
-
-        setupButtonListeners();
-        startGame();
-
-        return view;
     }
 
-    private void setupButtonListeners() {
-        buttonRed.setOnClickListener(v -> handleUserInput(1, R.raw.red));
-        buttonGreen.setOnClickListener(v -> handleUserInput(2, R.raw.green));
-        buttonBlue.setOnClickListener(v -> handleUserInput(3, R.raw.blue));
-        buttonYellow.setOnClickListener(v -> handleUserInput(4, R.raw.yellow));
-    }
-
+    /**
+     * Initializes the game by resetting state and starting a new pattern
+     */
     protected void startGame() {
         resetGame();
         addStepToPattern();
         showPattern();
     }
 
+    /**
+     * Resets the game state to initial values
+     */
     protected void resetGame() {
         pattern.clear();
         userInput.clear();
@@ -76,10 +55,16 @@ public class SecondDesign extends BaseFragment {
         updateScore();
     }
 
+    /**
+     * Adds a new random step to the pattern
+     */
     protected void addStepToPattern() {
         pattern.add(random.nextInt(4) + 1);
     }
 
+    /**
+     * Displays the current pattern to the user
+     */
     protected void showPattern() {
         disableClickOnThe4Colors();
         currentStep = 0;
@@ -98,6 +83,9 @@ public class SecondDesign extends BaseFragment {
         }, 1000);
     }
 
+    /**
+     * Disables all color buttons
+     */
     protected void disableClickOnThe4Colors() {
         buttonBlue.setEnabled(false);
         buttonRed.setEnabled(false);
@@ -105,6 +93,9 @@ public class SecondDesign extends BaseFragment {
         buttonYellow.setEnabled(false);
     }
 
+    /**
+     * Enables all color buttons
+     */
     protected void enableClickOnThe4Colors() {
         buttonBlue.setEnabled(true);
         buttonRed.setEnabled(true);
@@ -112,6 +103,10 @@ public class SecondDesign extends BaseFragment {
         buttonYellow.setEnabled(true);
     }
 
+    /**
+     * Animates a button based on its number
+     * @param buttonNumber The number of the button to animate (1-4)
+     */
     protected void animateButton(int buttonNumber) {
         ImageButton buttonToAnimate = null;
         int soundResId = 0;
@@ -136,12 +131,18 @@ public class SecondDesign extends BaseFragment {
         }
 
         if (buttonToAnimate != null) {
-            ObjectAnimator animator = ObjectAnimator.ofFloat(buttonToAnimate, "alpha", 0f, 1f);
-            animator.setDuration(500);
-            animator.start();
+            buttonToAnimate.animate()
+                    .alpha(1f) // Target alpha value
+                    .setDuration(500)
+                    .start();
         }
     }
 
+    /**
+     * Handles user input for a button press
+     * @param buttonNumber The number of the button pressed (1-4)
+     * @param soundResId The sound resource ID to play
+     */
     protected void handleUserInput(int buttonNumber, int soundResId) {
         userInput.add(buttonNumber);
         playSound(soundResId);
@@ -154,18 +155,21 @@ public class SecondDesign extends BaseFragment {
                 showPattern();
             }
         } else {
-            if (listener != null) {
-                listener.onGameFailed(score);
-            }
+            onGameFailed(score);
         }
     }
 
+    /**
+     * Updates the score and notifies listeners
+     */
     protected void updateScore() {
-        if (listener != null) {
-            listener.onScoreUpdated(score);
-        }
+        onScoreUpdated(score);
     }
 
+    /**
+     * Plays a sound if sound is enabled in preferences
+     * @param resId The sound resource ID to play
+     */
     protected void playSound(int resId) {
         boolean buttonSoundsEnabled = preferences.getBoolean(KEY_BUTTON_SOUNDS_STATE, true);
         if (buttonSoundsEnabled) {
@@ -175,21 +179,15 @@ public class SecondDesign extends BaseFragment {
         }
     }
 
-    @Override
-    protected void onScoreUpdated(int newScore) {
-        if (listener != null) {
-            listener.onScoreUpdated(newScore);
-        }
-    }
+    /**
+     * Called when the score is updated
+     * @param newScore The new score value
+     */
+    protected abstract void onScoreUpdated(int newScore);
 
-    @Override
-    protected void onGameFailed(int finalScore) {
-        if (listener != null) {
-            listener.onGameFailed(finalScore);
-        }
-    }
-
-    public void setSecondDesignListener(SecondDesignListener listener) {
-        this.listener = listener;
-    }
-}
+    /**
+     * Called when the game is failed
+     * @param finalScore The final score when the game ended
+     */
+    protected abstract void onGameFailed(int finalScore);
+} 

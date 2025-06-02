@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class FourthDesign extends Fragment {
+public class FourthDesign extends BaseFragment {
     private ImageButton buttonRed, buttonGreen, buttonBlue, buttonYellow;
     private ArrayList<Integer> pattern = new ArrayList<>();
     private ArrayList<Integer> userInput = new ArrayList<>();
@@ -63,24 +63,24 @@ public class FourthDesign extends Fragment {
         buttonYellow.setOnClickListener(v -> handleUserInput(4, R.raw.yellow));
     }
 
-    private void startGame() {
+    protected void startGame() {
         resetGame();
         addStepToPattern();
         showPattern();
     }
 
-    private void resetGame() {
+    protected void resetGame() {
         pattern.clear();
         userInput.clear();
         score = 0;
         updateScore();
     }
 
-    private void addStepToPattern() {
+    protected void addStepToPattern() {
         pattern.add(random.nextInt(4) + 1);
     }
 
-    private void showPattern() {
+    protected void showPattern() {
         disableClickOnThe4Colors();
         currentStep = 0;
         userInput.clear();
@@ -98,21 +98,21 @@ public class FourthDesign extends Fragment {
         }, 1000);
     }
 
-    private void disableClickOnThe4Colors() {
+    protected void disableClickOnThe4Colors() {
         buttonBlue.setEnabled(false);
         buttonRed.setEnabled(false);
         buttonGreen.setEnabled(false);
         buttonYellow.setEnabled(false);
     }
 
-    private void enableClickOnThe4Colors() {
+    protected void enableClickOnThe4Colors() {
         buttonBlue.setEnabled(true);
         buttonRed.setEnabled(true);
         buttonGreen.setEnabled(true);
         buttonYellow.setEnabled(true);
     }
 
-    private void animateButton(int buttonNumber) {
+    protected void animateButton(int buttonNumber) {
         ImageButton buttonToAnimate = null;
         int soundResId = 0;
 
@@ -142,7 +142,7 @@ public class FourthDesign extends Fragment {
         }
     }
 
-    private void handleUserInput(int buttonNumber, int soundResId) {
+    protected void handleUserInput(int buttonNumber, int soundResId) {
         userInput.add(buttonNumber);
         playSound(soundResId);
 
@@ -160,18 +160,32 @@ public class FourthDesign extends Fragment {
         }
     }
 
-    private void updateScore() {
+    protected void updateScore() {
         if (listener != null) {
             listener.onScoreUpdated(score);
         }
     }
 
-    private void playSound(int resId) {
+    protected void playSound(int resId) {
         boolean buttonSoundsEnabled = preferences.getBoolean(KEY_BUTTON_SOUNDS_STATE, true);
         if (buttonSoundsEnabled) {
             MediaPlayer mediaPlayer = MediaPlayer.create(getActivity(), resId);
             mediaPlayer.setVolume(100, 100);
             mediaPlayer.start();
+        }
+    }
+
+    @Override
+    protected void onScoreUpdated(int newScore) {
+        if (listener != null) {
+            listener.onScoreUpdated(newScore);
+        }
+    }
+
+    @Override
+    protected void onGameFailed(int finalScore) {
+        if (listener != null) {
+            listener.onGameFailed(finalScore);
         }
     }
 
